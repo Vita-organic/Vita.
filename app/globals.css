@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070605;
+  --foreground: #f4efe8;
+  --font-serif: var(--font-serif), "Cormorant Garamond", Garamond, Georgia, serif;
+  --font-sans: var(--font-sans), "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+}
+
+@theme {
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --color-dark-bg: #070605;
+  --color-dark-surface: #0e0c0b;
+  --color-warm-ivory: #f7f2ea;
+  --color-warm-gold: #c9944d;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #070605;
+  color: #f4efe8;
+}
+
+body {
+  background-color: #070605;
+  color: #f4efe8;
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Serif Font Utility */
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+/* Custom hairline borders and glass panels */
+.hairline-border {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.hairline-divider {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Elegant scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #070605;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* 60fps hardware accelerated marquee */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Hide scrollbar in overflow containers (vitamin selector ribbon, etc.) */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth tab content transitions */
+.tab-panel {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Subtle glow effect on hover for interactive elements */
+.glow-hover {
+  transition: box-shadow 0.3s ease;
+}
+
+.glow-hover:hover {
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
+}
+
+/* Progress bar base style */
+.progress-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Pull selection highlight color to match accent */
+::selection {
+  background: rgba(245, 215, 127, 0.2);
+  color: white;
+}
