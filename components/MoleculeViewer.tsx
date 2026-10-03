@@ -7,25 +7,74 @@ import { VitaminData } from "@/data/vitamins";
 interface MoleculeViewerProps {
   vitamin: VitaminData;
   className?: string;
+  autoRotate?: boolean;
+  interactive?: boolean;
+  externalRotationY?: number;
+  externalRotationX?: number;
+  cameraDistanceMultiplier?: number;
+  onReady?: () => void;
 }
 
-// Optimized CPK Palette with rich visual contrast tailored for dark luxury aesthetics
-const ELEMENT_COLORS: Record<string, { color: number; radius: number; roughness: number; metalness: number }> = {
-  C: { color: 0x242226, radius: 0.38, roughness: 0.35, metalness: 0.2 },  // Carbon (Graphite Obsidian)
-  H: { color: 0xf3ede2, radius: 0.22, roughness: 0.45, metalness: 0.05 }, // Hydrogen (Ivory Bone)
-  O: { color: 0xd63031, radius: 0.36, roughness: 0.25, metalness: 0.1 },  // Oxygen (Ruby Crimson)
-  N: { color: 0x0984e3, radius: 0.36, roughness: 0.25, metalness: 0.1 },  // Nitrogen (Sapphire Blue)
-  P: { color: 0xe67e22, radius: 0.44, roughness: 0.3, metalness: 0.15 },  // Phosphorus (Amber Gold)
-  S: { color: 0xfdcb6e, radius: 0.44, roughness: 0.3, metalness: 0.15 },  // Sulfur (Canary Topaz)
-  Co: { color: 0x8e44ad, radius: 0.52, roughness: 0.15, metalness: 0.7 }, // Cobalt (Metallic Amethyst)
+// Scientific CPK Color Palette with rich depth
+const ELEMENT_SPECS: Record<
+  string,
+  { color: number; radius: number; roughness: number; metalness: number }
+> = {
+  C: { color: 0x222024, radius: 0.38, roughness: 0.35, metalness: 0.25 }, // Carbon: Graphite obsidian
+  H: { color: 0xf5efe6, radius: 0.22, roughness: 0.5, metalness: 0.05 },  // Hydrogen: Cream bone
+  O: { color: 0xdf3838, radius: 0.36, roughness: 0.25, metalness: 0.15 }, // Oxygen: Ruby scarlet
+  N: { color: 0x1f75fe, radius: 0.36, roughness: 0.25, metalness: 0.15 }, // Nitrogen: Deep azure
+  P: { color: 0xe67e22, radius: 0.44, roughness: 0.3, metalness: 0.2 },   // Phosphorus: Amber
+  S: { color: 0xf1c40f, radius: 0.44, roughness: 0.3, metalness: 0.2 },   // Sulfur: Golden topaz
+  Co: { color: 0x9b59b6, radius: 0.52, roughness: 0.15, metalness: 0.75 },// Cobalt: Metallic amethyst
+  Cl: { color: 0x2ecc71, radius: 0.42, roughness: 0.3, metalness: 0.15 }, // Chlorine: Emerald
 };
+
+// Singleton shared geometries & materials for all molecules (0 duplicate GPU buffer allocations)
+const SHARED_SPHERE_GEOM = new THREE.SphereGeometry(1, 12, 8);
+const SHARED_CYLINDER_GEOM = new THREE.CylinderGeometry(0.08, 0.08, 1, 6);
+const SHARED_BOND_MATERIAL = new THREE.MeshStandardMaterial({
+  color: 0x908a82,
+  roughness: 0.35,
+  metalness: 0.45,
+});
+
+const SHARED_ATOM_MATERIALS = new Map<string, THREE.MeshStandardMaterial>();
+const getAtomMaterial = (element: string): THREE.MeshStandardMaterial => {
+  let mat = SHARED_ATOM_MATERIALS.get(element);
+  if (!mat) {
+    const spec = ELEMENT_SPECS[element] || ELEMENT_SPECS.C;
+    mat = new THREE.MeshStandardMaterial({
+      color: spec.color,
+      roughness: spec.roughness,
+      metalness: spec.metalness,
+    });
+    SHARED_ATOM_MATERIALS.set(element, mat);
+  }
+  return mat;
+};
+
+// Reusable scratch math objects to eliminate Garbage Collection thrashing during layout
+const _v1 = new THREE.Vector3();
+const _v2 = new THREE.Vector3();
+const _mid = new THREE.Vector3();
+const _dir = new THREE.Vector3();
+const _up = new THREE.Vector3(0, 1, 0);
+const _quat = new THREE.Quaternion();
 
 export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
   vitamin,
-  className = "w-full h-[400px] sm:h-[480px] lg:h-[540px]",
+  className = "w-full h-full min-h-[320px]",
+  autoRotate = true,
+  interactive = true,
+  externalRotationY,
+  externalRotationX,
+  cameraDistanceMultiplier = 1.0,
+  onReady,
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [isInteracting, setIsInteracting] = useState<boolean>(false);
+  const [zoomLevel, setZoomLevel] = useState<number>(1);
 
   // Three.js instances
   const sceneRef = useRef<THREE.Scene | null>(null);
@@ -35,16 +84,40 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
   const animFrameIdRef = useRef<number | null>(null);
   const isVisibleRef = useRef<boolean>(true);
 
-  // Pointer drag interaction
+  // Base camera distance calculated from molecule radius
+  const baseCameraDistRef = useRef<number>(14);
+
+  // Interaction tracking
   const isDraggingRef = useRef<boolean>(false);
   const prevPointerRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const rotationVelocityRef = useRef<{ x: number; y: number }>({ x: 0, y: 0.0035 });
+  const userRotationRef = useRef<{ x: number; y: number }>({ x: 0.2, y: 0.4 });
 
-  // Reset rotation to default orientation
-  const handleReset = useCallback(() => {
+  // Update external GSAP rotations if provided
+  useEffect(() => {
+    if (!moleculeGroupRef.current) return;
+    if (externalRotationY !== undefined) {
+      moleculeGroupRef.current.rotation.y = userRotationRef.current.y + externalRotationY;
+    }
+    if (externalRotationX !== undefined) {
+      moleculeGroupRef.current.rotation.x = userRotationRef.current.x + externalRotationX;
+    }
+  }, [externalRotationY, externalRotationX]);
+
+  // Update camera distance multiplier
+  useEffect(() => {
+    if (!cameraRef.current) return;
+    const targetZ = baseCameraDistRef.current * cameraDistanceMultiplier * zoomLevel;
+    cameraRef.current.position.z = targetZ;
+  }, [cameraDistanceMultiplier, zoomLevel]);
+
+  // Reset to default viewing angle
+  const handleResetOrientation = useCallback(() => {
+    userRotationRef.current = { x: 0.2, y: 0.4 };
+    rotationVelocityRef.current = { x: 0, y: 0.0035 };
+    setZoomLevel(1);
     if (moleculeGroupRef.current) {
       moleculeGroupRef.current.rotation.set(0.2, 0.4, 0);
-      rotationVelocityRef.current = { x: 0, y: 0.0035 };
     }
   }, []);
 
@@ -70,28 +143,28 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       powerPreference: "high-performance",
     });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.15;
 
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. Lighting: Fast, crisp 3-point studio lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // 4. Lighting: Cinematic Studio Setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff5ea, 1.6);
-    keyLight.position.set(6, 10, 8);
+    const keyLight = new THREE.DirectionalLight(0xfff6ec, 1.8);
+    keyLight.position.set(7, 10, 9);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xaad0ff, 0.6);
+    const fillLight = new THREE.DirectionalLight(0xa5c4e8, 0.7);
     fillLight.position.set(-8, -4, -6);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xffeedd, 1.2, 25);
-    rimLight.position.set(0, 6, -5);
+    const rimLight = new THREE.PointLight(0xffe6c4, 1.3, 30);
+    rimLight.position.set(0, 7, -6);
     scene.add(rimLight);
 
     // 5. Molecule Group
@@ -99,100 +172,84 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     moleculeGroupRef.current = moleculeGroup;
     scene.add(moleculeGroup);
 
-    // Center of mass calculation
+    // Calculate center of mass
     let centerX = 0, centerY = 0, centerZ = 0;
-    vitamin.atoms.forEach((a) => {
+    const atoms = vitamin.atoms || [];
+    atoms.forEach((a) => {
       centerX += a.x;
       centerY += a.y;
       centerZ += a.z;
     });
-    const atomCount = vitamin.atoms.length || 1;
+    const atomCount = atoms.length || 1;
     centerX /= atomCount;
     centerY /= atomCount;
     centerZ /= atomCount;
 
-    // Shared low/medium poly geometries for ultra smooth rendering (60-120fps)
-    const sphereGeom = new THREE.SphereGeometry(1, 16, 12);
-    const cylinderGeom = new THREE.CylinderGeometry(0.08, 0.08, 1, 10);
+    // Add Atoms (Ball) using shared geometry and shared element materials
+    atoms.forEach((atom) => {
+      const spec = ELEMENT_SPECS[atom.element] || ELEMENT_SPECS.C;
+      const mat = getAtomMaterial(atom.element);
 
-    // Bond material: sleek titanium-champagne metallic cylinder
-    const bondMaterial = new THREE.MeshStandardMaterial({
-      color: 0x8a847c,
-      roughness: 0.35,
-      metalness: 0.4,
-    });
-
-    // Materials cache by element
-    const materialsByElement = new Map<string, THREE.MeshStandardMaterial>();
-
-    // Add Atoms (Ball & Stick)
-    vitamin.atoms.forEach((atom) => {
-      const config = ELEMENT_COLORS[atom.element] || ELEMENT_COLORS.C;
-      let mat = materialsByElement.get(atom.element);
-      if (!mat) {
-        mat = new THREE.MeshStandardMaterial({
-          color: config.color,
-          roughness: config.roughness,
-          metalness: config.metalness,
-        });
-        materialsByElement.set(atom.element, mat);
-      }
-
-      const atomMesh = new THREE.Mesh(sphereGeom, mat);
+      const atomMesh = new THREE.Mesh(SHARED_SPHERE_GEOM, mat);
       atomMesh.position.set(atom.x - centerX, atom.y - centerY, atom.z - centerZ);
-      atomMesh.scale.setScalar(config.radius);
+      atomMesh.scale.setScalar(spec.radius);
       moleculeGroup.add(atomMesh);
     });
 
-    // Add Bonds
-    vitamin.bonds.forEach(([i1, i2]) => {
-      const a1 = vitamin.atoms[i1];
-      const a2 = vitamin.atoms[i2];
+    // Add Bonds (Stick) reusing scratch vectors to prevent GC allocations
+    const bonds = vitamin.bonds || [];
+    bonds.forEach(([i1, i2]) => {
+      const a1 = atoms[i1];
+      const a2 = atoms[i2];
       if (!a1 || !a2) return;
 
-      const p1 = new THREE.Vector3(a1.x - centerX, a1.y - centerY, a1.z - centerZ);
-      const p2 = new THREE.Vector3(a2.x - centerX, a2.y - centerY, a2.z - centerZ);
-      const distance = p1.distanceTo(p2);
+      _v1.set(a1.x - centerX, a1.y - centerY, a1.z - centerZ);
+      _v2.set(a2.x - centerX, a2.y - centerY, a2.z - centerZ);
+      const distance = _v1.distanceTo(_v2);
 
-      const cylinder = new THREE.Mesh(cylinderGeom, bondMaterial);
-      const midPoint = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
-      cylinder.position.copy(midPoint);
+      const cylinder = new THREE.Mesh(SHARED_CYLINDER_GEOM, SHARED_BOND_MATERIAL);
+      _mid.addVectors(_v1, _v2).multiplyScalar(0.5);
+      cylinder.position.copy(_mid);
       cylinder.scale.set(1, distance, 1);
 
-      const direction = new THREE.Vector3().subVectors(p2, p1).normalize();
-      const orientation = new THREE.Quaternion().setFromUnitVectors(
-        new THREE.Vector3(0, 1, 0),
-        direction
-      );
-      cylinder.quaternion.copy(orientation);
+      _dir.subVectors(_v2, _v1).normalize();
+      _quat.setFromUnitVectors(_up, _dir);
+      cylinder.quaternion.copy(_quat);
       moleculeGroup.add(cylinder);
     });
 
-    // Default orientation
-    moleculeGroup.rotation.set(0.2, 0.4, 0);
+    // Initial orientation
+    moleculeGroup.rotation.set(userRotationRef.current.x, userRotationRef.current.y, 0);
 
-    // Adjust camera distance based on molecule boundary
+    // Compute bounding sphere to set base camera distance
     let maxDist = 0;
-    vitamin.atoms.forEach((a) => {
+    atoms.forEach((a) => {
       const dist = Math.hypot(a.x - centerX, a.y - centerY, a.z - centerZ);
       if (dist > maxDist) maxDist = dist;
     });
-    camera.position.z = Math.max(11, maxDist * 2.1);
+    const calculatedDist = Math.max(10, maxDist * 2.2);
+    baseCameraDistRef.current = calculatedDist;
+    camera.position.z = calculatedDist * cameraDistanceMultiplier * zoomLevel;
 
-    // 6. Animation Loop & Visibility Gating
+    // 6. Animation Loop with Visibility Gating
     let isRunning = false;
 
     const renderFrame = () => {
       if (!isRunning) return;
 
       if (!isDraggingRef.current && moleculeGroup) {
-        moleculeGroup.rotation.y += rotationVelocityRef.current.y;
-        moleculeGroup.rotation.x += rotationVelocityRef.current.x;
+        if (autoRotate) {
+          moleculeGroup.rotation.y += rotationVelocityRef.current.y;
+          moleculeGroup.rotation.x += rotationVelocityRef.current.x;
 
-        // Subtle damping to idle drift
-        rotationVelocityRef.current.x *= 0.95;
-        rotationVelocityRef.current.y =
-          rotationVelocityRef.current.y * 0.95 + 0.0035 * 0.05;
+          // Subtle damping to idle drift
+          rotationVelocityRef.current.x *= 0.95;
+          rotationVelocityRef.current.y =
+            rotationVelocityRef.current.y * 0.95 + 0.003 * 0.05;
+
+          userRotationRef.current.x = moleculeGroup.rotation.x;
+          userRotationRef.current.y = moleculeGroup.rotation.y;
+        }
       }
 
       renderer.render(scene, camera);
@@ -214,7 +271,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       }
     };
 
-    // IntersectionObserver to completely halt rendering loop when off-screen
+    // Pause WebGL rendering loop when offscreen
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -230,8 +287,10 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     );
     observer.observe(container);
 
-    // Initial render once
+    // Initial render
     renderer.render(scene, camera);
+
+    if (onReady) onReady();
 
     // Resize Handler
     const handleResize = () => {
@@ -247,7 +306,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
 
     window.addEventListener("resize", handleResize, { passive: true });
 
-    // WebGL Context Loss and Restore handlers
+    // WebGL Context Loss Handlers
     const handleContextLost = (e: Event) => {
       e.preventDefault();
       stopLoop();
@@ -272,16 +331,13 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       canvas.removeEventListener("webglcontextlost", handleContextLost);
       canvas.removeEventListener("webglcontextrestored", handleContextRestored);
       renderer.dispose();
-      sphereGeom.dispose();
-      cylinderGeom.dispose();
-      bondMaterial.dispose();
-      materialsByElement.forEach((mat) => mat.dispose());
       if (container) container.innerHTML = "";
     };
-  }, [vitamin]);
+  }, [vitamin, autoRotate, onReady]);
 
-  // Pointer event handlers for silky drag rotation
+  // Pointer drag interaction
   const handlePointerDown = (e: React.PointerEvent) => {
+    if (!interactive) return;
     isDraggingRef.current = true;
     setIsInteracting(true);
     prevPointerRef.current = { x: e.clientX, y: e.clientY };
@@ -291,7 +347,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (!isDraggingRef.current || !moleculeGroupRef.current) return;
+    if (!isDraggingRef.current || !moleculeGroupRef.current || !interactive) return;
 
     const deltaX = e.clientX - prevPointerRef.current.x;
     const deltaY = e.clientY - prevPointerRef.current.y;
@@ -301,88 +357,66 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     moleculeGroupRef.current.rotation.x += deltaY * 0.007;
 
     rotationVelocityRef.current = {
-      x: deltaY * 0.0015,
-      y: deltaX * 0.0015,
+      x: deltaY * 0.003,
+      y: deltaX * 0.003,
     };
+
+    userRotationRef.current.x = moleculeGroupRef.current.rotation.x;
+    userRotationRef.current.y = moleculeGroupRef.current.rotation.y;
   };
 
   const handlePointerUp = (e: React.PointerEvent) => {
+    if (!interactive) return;
     isDraggingRef.current = false;
-    setTimeout(() => setIsInteracting(false), 600);
+    setIsInteracting(false);
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
     } catch {}
   };
 
+  // Wheel zoom interaction
+  const handleWheel = (e: React.WheelEvent) => {
+    if (!interactive) return;
+    e.stopPropagation();
+    setZoomLevel((prev) => {
+      const next = prev + e.deltaY * 0.001;
+      return Math.min(1.8, Math.max(0.6, next));
+    });
+  };
+
   return (
     <div
-      className={`relative rounded-3xl bg-[#090807] border border-white/10 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.85)] ${className}`}
+      className={`relative select-none touch-none ${className}`}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
+      onWheel={handleWheel}
+      style={{ cursor: interactive ? (isInteracting ? "grabbing" : "grab") : "default" }}
+      aria-label={`Molécula 3D de ${vitamin.name} (${vitamin.chemicalName})`}
     >
-      {/* Background Soft Chromatic Glow */}
-      <div
-        className="absolute inset-0 opacity-15 pointer-events-none blur-[120px]"
-        style={{
-          background: `radial-gradient(circle at 60% 40%, ${vitamin.accentColor}, transparent 65%)`,
-        }}
-      />
+      {/* 3D Canvas Mount */}
+      <div ref={mountRef} className="w-full h-full block" />
 
-      {/* Top HUD: Technical Metadata */}
-      <div className="absolute top-4 left-5 right-5 z-10 flex items-center justify-between text-white/60 pointer-events-none">
-        <div className="flex items-center space-x-3">
-          <span className="text-[10px] font-mono tracking-[0.25em] uppercase text-white/50">
-            ESTÚDIO 3D &middot; {vitamin.letter}
-          </span>
-          <span className="w-1 h-1 rounded-full bg-amber-400" />
-          <span className="text-[10px] font-mono text-white/70">
-            BALL &amp; STICK
-          </span>
+      {/* Discrete interaction hint when hovered or active */}
+      {interactive && (
+        <div className="absolute bottom-3 right-4 pointer-events-none flex items-center space-x-2 text-[10px] font-mono tracking-widest text-white/30 uppercase">
+          <span>ARRASTE PARA GIRAR</span>
+          <span>&middot;</span>
+          <span>SCROLL ZOOM</span>
         </div>
+      )}
 
-        {/* State indicator pill */}
-        <div className="flex items-center space-x-2 text-[9px] font-mono uppercase bg-white/5 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-          <div
-            className={`w-1.5 h-1.5 rounded-full ${
-              isInteracting ? "bg-amber-400 animate-pulse" : "bg-emerald-400"
-            }`}
-          />
-          <span className="text-white/80">
-            {isInteracting ? "ROTACIONANDO" : "ORBITAL LIVRE"}
-          </span>
-        </div>
-      </div>
-
-      {/* 3D WebGL Canvas */}
-      <div
-        ref={mountRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
-        className="w-full h-full cursor-grab active:cursor-grabbing touch-none select-none"
-      />
-
-      {/* Bottom HUD: Reset & PubChem metadata */}
-      <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center justify-between gap-3 text-white/70 pointer-events-auto">
+      {/* Subtle re-center button when user has rotated or zoomed */}
+      {interactive && (
         <button
-          onClick={handleReset}
-          title="Resetar orientação"
-          className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/70 hover:text-white border border-white/10 text-[10px] font-mono transition-colors"
+          onClick={handleResetOrientation}
+          title="Recentralizar orientação"
+          className="absolute top-3 right-4 px-2 py-1 rounded text-[9px] font-mono uppercase tracking-widest text-white/40 hover:text-white/80 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition-colors pointer-events-auto"
         >
-          <span>↺</span>
-          <span className="uppercase tracking-wider">Resetar</span>
+          RESET 3D
         </button>
-
-        <div className="flex items-center space-x-2">
-          <a
-            href={`https://pubchem.ncbi.nlm.nih.gov/compound/${vitamin.pubchemCid}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/15 text-white/60 hover:text-white border border-white/10 text-[10px] font-mono transition-colors"
-          >
-            PUBCHEM CID: {vitamin.pubchemCid} &#8599;
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

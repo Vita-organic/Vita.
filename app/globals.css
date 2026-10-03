@@ -1,32 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070605;
-  --foreground: #f4efe8;
-  --font-serif: var(--font-serif), "Cormorant Garamond", Garamond, Georgia, serif;
-  --font-sans: var(--font-sans), "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
+  --background: #060504;
+  --foreground: #f5efe6;
+  --font-serif: "Cormorant Garamond", Garamond, Georgia, serif;
+  --font-sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", Menlo, Monaco, Consolas, monospace;
 }
 
 @theme {
   --font-serif: var(--font-serif);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --color-dark-bg: #070605;
-  --color-dark-surface: #0e0c0b;
-  --color-warm-ivory: #f7f2ea;
-  --color-warm-gold: #c9944d;
+  --color-dark-bg: #060504;
+  --color-dark-surface: #0c0a09;
+  --color-editorial-cream: #f5efe6;
+  --color-scientific-amber: #e8a830;
+  --color-scientific-azure: #52a5ff;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #070605;
-  color: #f4efe8;
+  background-color: #060504;
+  color: #f5efe6;
 }
 
 body {
-  background-color: #070605;
-  color: #f4efe8;
+  background-color: #060504;
+  color: #f5efe6;
   font-family: var(--font-sans);
   margin: 0;
   padding: 0;
@@ -35,59 +36,52 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Serif Font Utility */
+/* Custom Handmade Display Font */
+@font-face {
+  font-family: 'Meltow';
+  src: url('/fonts/meltow-san-100-handmade-italic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+.font-meltow {
+  font-family: 'Meltow', "Cormorant Garamond", cursive, serif;
+}
+
+/* Serif Font Class */
 .font-editorial {
   font-family: var(--font-serif);
 }
 
-/* Custom hairline borders and glass panels */
+/* Discreet subtle borders */
 .hairline-border {
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(245, 239, 230, 0.08);
 }
 
 .hairline-divider {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(245, 239, 230, 0.1);
 }
 
-/* Elegant scrollbar */
+/* Ultra minimal dark scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #070605;
+  background: #060504;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(245, 239, 230, 0.15);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(245, 239, 230, 0.35);
 }
 
-/* 60fps hardware accelerated marquee */
-@keyframes marquee {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 32s linear infinite;
-  will-change: transform;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-
-/* Hide scrollbar in overflow containers (vitamin selector ribbon, etc.) */
+/* Hide scrollbars when desired */
 .scrollbar-none {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -97,29 +91,107 @@ body {
   display: none;
 }
 
-/* Smooth tab content transitions */
-.tab-panel {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+/* Selection tint */
+::selection {
+  background: rgba(232, 168, 48, 0.25);
+  color: #ffffff;
 }
 
-/* Subtle glow effect on hover for interactive elements */
-.glow-hover {
-  transition: box-shadow 0.3s ease;
+/* Text stroke utility for monumental outlines */
+.text-stroke-subtle {
+  -webkit-text-stroke: 1px rgba(245, 239, 230, 0.2);
 }
 
-.glow-hover:hover {
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.06);
-}
-
-/* Progress bar base style */
-.progress-track {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 9999px;
+/* ==========================================================================
+   Standardized Editorial Layout, Typography & UI Tokens
+   ========================================================================== */
+.section-editorial {
+  position: relative;
+  width: 100%;
+  background-color: #060504;
+  color: #f5efe6;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   overflow: hidden;
 }
 
-/* Pull selection highlight color to match accent */
-::selection {
-  background: rgba(245, 215, 127, 0.2);
-  color: white;
+@media (min-width: 640px) {
+  .section-editorial {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .section-editorial {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-editorial {
+    padding-left: 8rem;
+    padding-right: 8rem;
+  }
+}
+
+.eyebrow-scientific {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
+
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.pill-badge-sm {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+}
+
+.telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.4;
 }
