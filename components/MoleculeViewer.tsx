@@ -15,43 +15,19 @@ interface MoleculeViewerProps {
   onReady?: () => void;
 }
 
-// Scientific CPK Color Palette with rich depth
+// Optimized CPK Palette with rich visual contrast tailored for dark luxury aesthetics (Original version)
 const ELEMENT_SPECS: Record<
   string,
   { color: number; radius: number; roughness: number; metalness: number }
 > = {
-  C: { color: 0x222024, radius: 0.38, roughness: 0.35, metalness: 0.25 }, // Carbon: Graphite obsidian
-  H: { color: 0xf5efe6, radius: 0.22, roughness: 0.5, metalness: 0.05 },  // Hydrogen: Cream bone
-  O: { color: 0xdf3838, radius: 0.36, roughness: 0.25, metalness: 0.15 }, // Oxygen: Ruby scarlet
-  N: { color: 0x1f75fe, radius: 0.36, roughness: 0.25, metalness: 0.15 }, // Nitrogen: Deep azure
-  P: { color: 0xe67e22, radius: 0.44, roughness: 0.3, metalness: 0.2 },   // Phosphorus: Amber
-  S: { color: 0xf1c40f, radius: 0.44, roughness: 0.3, metalness: 0.2 },   // Sulfur: Golden topaz
-  Co: { color: 0x9b59b6, radius: 0.52, roughness: 0.15, metalness: 0.75 },// Cobalt: Metallic amethyst
+  C: { color: 0x242226, radius: 0.38, roughness: 0.35, metalness: 0.2 },  // Carbon (Graphite Obsidian)
+  H: { color: 0xf3ede2, radius: 0.22, roughness: 0.45, metalness: 0.05 }, // Hydrogen (Ivory Bone)
+  O: { color: 0xd63031, radius: 0.36, roughness: 0.25, metalness: 0.1 },  // Oxygen (Ruby Crimson)
+  N: { color: 0x0984e3, radius: 0.36, roughness: 0.25, metalness: 0.1 },  // Nitrogen (Sapphire Blue)
+  P: { color: 0xe67e22, radius: 0.44, roughness: 0.3, metalness: 0.15 },  // Phosphorus (Amber Gold)
+  S: { color: 0xfdcb6e, radius: 0.44, roughness: 0.3, metalness: 0.15 },  // Sulfur (Canary Topaz)
+  Co: { color: 0x8e44ad, radius: 0.52, roughness: 0.15, metalness: 0.7 }, // Cobalt (Metallic Amethyst)
   Cl: { color: 0x2ecc71, radius: 0.42, roughness: 0.3, metalness: 0.15 }, // Chlorine: Emerald
-};
-
-// Singleton shared geometries & materials for all molecules (0 duplicate GPU buffer allocations)
-const SHARED_SPHERE_GEOM = new THREE.SphereGeometry(1, 12, 8);
-const SHARED_CYLINDER_GEOM = new THREE.CylinderGeometry(0.08, 0.08, 1, 6);
-const SHARED_BOND_MATERIAL = new THREE.MeshStandardMaterial({
-  color: 0x908a82,
-  roughness: 0.35,
-  metalness: 0.45,
-});
-
-const SHARED_ATOM_MATERIALS = new Map<string, THREE.MeshStandardMaterial>();
-const getAtomMaterial = (element: string): THREE.MeshStandardMaterial => {
-  let mat = SHARED_ATOM_MATERIALS.get(element);
-  if (!mat) {
-    const spec = ELEMENT_SPECS[element] || ELEMENT_SPECS.C;
-    mat = new THREE.MeshStandardMaterial({
-      color: spec.color,
-      roughness: spec.roughness,
-      metalness: spec.metalness,
-    });
-    SHARED_ATOM_MATERIALS.set(element, mat);
-  }
-  return mat;
 };
 
 // Reusable scratch math objects to eliminate Garbage Collection thrashing during layout
@@ -104,12 +80,6 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     }
   }, [externalRotationY, externalRotationX]);
 
-  // Update camera distance multiplier
-  useEffect(() => {
-    if (!cameraRef.current) return;
-    const targetZ = baseCameraDistRef.current * cameraDistanceMultiplier * zoomLevel;
-    cameraRef.current.position.z = targetZ;
-  }, [cameraDistanceMultiplier, zoomLevel]);
 
   // Reset to default viewing angle
   const handleResetOrientation = useCallback(() => {
@@ -142,35 +112,63 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       alpha: true,
       powerPreference: "high-performance",
     });
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 1.1;
+    renderer.domElement.style.width = "100%";
+    renderer.domElement.style.height = "100%";
+    renderer.domElement.style.display = "block";
 
     container.innerHTML = "";
     container.appendChild(renderer.domElement);
     rendererRef.current = renderer;
 
-    // 4. Lighting: Cinematic Studio Setup
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // 4. Lighting: Fast, crisp 3-point studio lighting (Original version)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0xfff6ec, 1.8);
-    keyLight.position.set(7, 10, 9);
+    const keyLight = new THREE.DirectionalLight(0xfff5ea, 1.6);
+    keyLight.position.set(6, 10, 8);
     scene.add(keyLight);
 
-    const fillLight = new THREE.DirectionalLight(0xa5c4e8, 0.7);
+    const fillLight = new THREE.DirectionalLight(0xaad0ff, 0.6);
     fillLight.position.set(-8, -4, -6);
     scene.add(fillLight);
 
-    const rimLight = new THREE.PointLight(0xffe6c4, 1.3, 30);
-    rimLight.position.set(0, 7, -6);
+    const rimLight = new THREE.PointLight(0xffeedd, 1.2, 25);
+    rimLight.position.set(0, 6, -5);
     scene.add(rimLight);
 
     // 5. Molecule Group
     const moleculeGroup = new THREE.Group();
     moleculeGroupRef.current = moleculeGroup;
     scene.add(moleculeGroup);
+
+    // Shared low/medium poly geometries for ultra smooth rendering (60-120fps)
+    const sphereGeom = new THREE.SphereGeometry(1, 16, 12);
+    const cylinderGeom = new THREE.CylinderGeometry(0.08, 0.08, 1, 10);
+    const bondMaterial = new THREE.MeshStandardMaterial({
+      color: 0x8a847c,
+      roughness: 0.35,
+      metalness: 0.4,
+    });
+    const atomMaterials = new Map<string, THREE.MeshStandardMaterial>();
+
+    const getLocalAtomMaterial = (element: string): THREE.MeshStandardMaterial => {
+      let mat = atomMaterials.get(element);
+      if (!mat) {
+        const spec = ELEMENT_SPECS[element] || ELEMENT_SPECS.C;
+        mat = new THREE.MeshStandardMaterial({
+          color: spec.color,
+          roughness: spec.roughness,
+          metalness: spec.metalness,
+        });
+        atomMaterials.set(element, mat);
+      }
+      return mat;
+    };
 
     // Calculate center of mass
     let centerX = 0, centerY = 0, centerZ = 0;
@@ -185,18 +183,18 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     centerY /= atomCount;
     centerZ /= atomCount;
 
-    // Add Atoms (Ball) using shared geometry and shared element materials
+    // Add Atoms (Ball)
     atoms.forEach((atom) => {
       const spec = ELEMENT_SPECS[atom.element] || ELEMENT_SPECS.C;
-      const mat = getAtomMaterial(atom.element);
+      const mat = getLocalAtomMaterial(atom.element);
 
-      const atomMesh = new THREE.Mesh(SHARED_SPHERE_GEOM, mat);
+      const atomMesh = new THREE.Mesh(sphereGeom, mat);
       atomMesh.position.set(atom.x - centerX, atom.y - centerY, atom.z - centerZ);
       atomMesh.scale.setScalar(spec.radius);
       moleculeGroup.add(atomMesh);
     });
 
-    // Add Bonds (Stick) reusing scratch vectors to prevent GC allocations
+    // Add Bonds (Stick)
     const bonds = vitamin.bonds || [];
     bonds.forEach(([i1, i2]) => {
       const a1 = atoms[i1];
@@ -207,7 +205,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       _v2.set(a2.x - centerX, a2.y - centerY, a2.z - centerZ);
       const distance = _v1.distanceTo(_v2);
 
-      const cylinder = new THREE.Mesh(SHARED_CYLINDER_GEOM, SHARED_BOND_MATERIAL);
+      const cylinder = new THREE.Mesh(cylinderGeom, bondMaterial);
       _mid.addVectors(_v1, _v2).multiplyScalar(0.5);
       cylinder.position.copy(_mid);
       cylinder.scale.set(1, distance, 1);
@@ -227,7 +225,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       const dist = Math.hypot(a.x - centerX, a.y - centerY, a.z - centerZ);
       if (dist > maxDist) maxDist = dist;
     });
-    const calculatedDist = Math.max(10, maxDist * 2.2);
+    const calculatedDist = Math.max(11, maxDist * 2.2);
     baseCameraDistRef.current = calculatedDist;
     camera.position.z = calculatedDist * cameraDistanceMultiplier * zoomLevel;
 
@@ -272,7 +270,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     };
 
     // Pause WebGL rendering loop when offscreen
-    const observer = new IntersectionObserver(
+    const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           isVisibleRef.current = entry.isIntersecting;
@@ -285,26 +283,26 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       },
       { threshold: 0.05 }
     );
-    observer.observe(container);
+    intersectionObserver.observe(container);
+
+    // Dynamic ResizeObserver for accurate sizing on initial layout
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width: w, height: h } = entry.contentRect;
+        if (w > 0 && h > 0 && renderer && camera) {
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h, false);
+          renderer.render(scene, camera);
+        }
+      }
+    });
+    resizeObserver.observe(container);
 
     // Initial render
     renderer.render(scene, camera);
 
     if (onReady) onReady();
-
-    // Resize Handler
-    const handleResize = () => {
-      if (!container || !renderer || !camera) return;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      if (w === 0 || h === 0) return;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-      renderer.render(scene, camera);
-    };
-
-    window.addEventListener("resize", handleResize, { passive: true });
 
     // WebGL Context Loss Handlers
     const handleContextLost = (e: Event) => {
@@ -325,11 +323,21 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     canvas.addEventListener("webglcontextrestored", handleContextRestored, false);
 
     return () => {
-      observer.disconnect();
+      intersectionObserver.disconnect();
+      resizeObserver.disconnect();
       stopLoop();
-      window.removeEventListener("resize", handleResize);
+
       canvas.removeEventListener("webglcontextlost", handleContextLost);
       canvas.removeEventListener("webglcontextrestored", handleContextRestored);
+
+      // Clean up local Three.js geometries and materials
+      sphereGeom.dispose();
+      cylinderGeom.dispose();
+      bondMaterial.dispose();
+      atomMaterials.forEach((m) => m.dispose());
+
+      // Free WebGL context explicitly to avoid GPU context limit
+      renderer.forceContextLoss();
       renderer.dispose();
       if (container) container.innerHTML = "";
     };
@@ -343,7 +351,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     prevPointerRef.current = { x: e.clientX, y: e.clientY };
     try {
       (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    } catch {}
+    } catch { }
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
@@ -371,22 +379,25 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     setIsInteracting(false);
     try {
       (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-    } catch {}
+    } catch { }
   };
 
-  // Wheel zoom interaction
+  // Wheel zoom interaction (only zooms if Ctrl/Meta key is held, otherwise lets page scroll freely)
   const handleWheel = (e: React.WheelEvent) => {
     if (!interactive) return;
-    e.stopPropagation();
-    setZoomLevel((prev) => {
-      const next = prev + e.deltaY * 0.001;
-      return Math.min(1.8, Math.max(0.6, next));
-    });
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      e.stopPropagation();
+      setZoomLevel((prev) => {
+        const next = prev + e.deltaY * 0.001;
+        return Math.min(1.8, Math.max(0.6, next));
+      });
+    }
   };
 
   return (
     <div
-      className={`relative select-none touch-none ${className}`}
+      className={`relative select-none touch-pan-y ${className}`}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
@@ -402,8 +413,6 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
       {interactive && (
         <div className="absolute bottom-3 right-4 pointer-events-none flex items-center space-x-2 text-[10px] font-mono tracking-widest text-white/30 uppercase">
           <span>ARRASTE PARA GIRAR</span>
-          <span>&middot;</span>
-          <span>SCROLL ZOOM</span>
         </div>
       )}
 

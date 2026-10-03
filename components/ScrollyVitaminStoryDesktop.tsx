@@ -49,7 +49,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
           setIsNearViewport(entry.isIntersecting);
         });
       },
-      { rootMargin: "450px 0px" }
+      { rootMargin: "1000px 0px" }
     );
 
     observer.observe(el);
@@ -75,7 +75,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
       // BEAT 0: Molecule starts dead center (x = 0) with grand title
       tl.fromTo(
         moleculeColRef.current,
-        { x: 0, scale: 0.75, opacity: 0.4 },
+        { x: 0, scale: 0.0, opacity: 0.0 },
         { x: 0, scale: 1.0, opacity: 1, ease: "power2.out", duration: 0.12 },
         0
       );
@@ -91,7 +91,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
         moleculeColRef.current,
         {
           x: targetX,
-          scale: 0.92,
+          scale: 1,
           ease: "power3.inOut",
           duration: 0.08,
         },
@@ -210,9 +210,8 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             Both sides use identical padding (px-16 lg:px-24) and max-w-xl!
             ==================================================================== */}
         <div
-          className={`absolute top-0 bottom-0 w-1/2 z-20 flex items-center justify-center px-12 lg:px-20 xl:px-24 ${
-            isAltLayout ? "right-0" : "left-0"
-          }`}
+          className={`absolute top-0 bottom-0 w-1/2 z-20 flex items-center justify-center px-12 lg:px-20 xl:px-24 ${isAltLayout ? "right-0" : "left-0"
+            }`}
         >
           <div className="w-full max-w-xl relative flex flex-col justify-center text-left">
             {/* BEAT 1: GRUPOS FUNCIONAIS + MODELO 2D */}

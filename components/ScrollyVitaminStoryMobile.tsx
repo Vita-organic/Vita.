@@ -44,7 +44,7 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
           setIsNearViewport(entry.isIntersecting);
         });
       },
-      { rootMargin: "350px 0px" }
+      { rootMargin: "1000px 0px" }
     );
 
     observer.observe(el);
@@ -68,7 +68,7 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
       tl.fromTo(
         moleculeWrapperRef.current,
         { scale: 0.8, opacity: 0.4 },
-        { scale: 1.0, opacity: 1, ease: "power2.out", duration: 0.12 },
+        { scale: 1, opacity: 1, ease: "power2.out", duration: 0.12 },
         0
       );
 
@@ -158,7 +158,7 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
       style={{ contentVisibility: "auto", containIntrinsicSize: "1000px" }}
     >
       {/* Sticky Mobile Stage: Strict Vertical Split (Top 36vh Molecule / Bottom 58vh Text) */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between px-4 pt-3 pb-4">
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between px-4 pt-22 pb-30 gap-5">
         {/* Subtle Ambient Radial Glow */}
         <div
           className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full pointer-events-none opacity-30"

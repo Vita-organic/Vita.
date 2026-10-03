@@ -1,0 +1,90 @@
+{
+  "vitamina-a": {
+    "total": 51,
+    "counts": {
+      "O": 1,
+      "C": 20,
+      "H": 30
+    },
+    "formula": "C20H30O"
+  },
+  "vitamina-d": {
+    "total": 72,
+    "counts": {
+      "O": 1,
+      "C": 27,
+      "H": 44
+    },
+    "formula": "C27H44O"
+  },
+  "vitamina-e": {
+    "total": 81,
+    "counts": {
+      "O": 2,
+      "C": 29,
+      "H": 50
+    },
+    "formula": "C29H50O2"
+  },
+  "vitamina-k": {
+    "total": 79,
+    "counts": {
+      "O": 2,
+      "C": 31,
+      "H": 46
+    },
+    "formula": "C31H46O2"
+  },
+  "vitamina-b1": {
+    "total": 35,
+    "counts": {
+      "S": 1,
+      "O": 1,
+      "N": 4,
+      "C": 12,
+      "H": 17
+    },
+    "formula": "C12H17N4OS"
+  },
+  "vitamina-b2": {
+    "total": 47,
+    "counts": {
+      "O": 6,
+      "N": 4,
+      "C": 17,
+      "H": 20
+    },
+    "formula": "C17H20N4O6"
+  },
+  "vitamina-b6": {
+    "total": 23,
+    "counts": {
+      "O": 3,
+      "N": 1,
+      "C": 8,
+      "H": 11
+    },
+    "formula": "C8H11NO3"
+  },
+  "vitamina-b12": {
+    "total": 181,
+    "counts": {
+      "Co": 1,
+      "N": 14,
+      "C": 63,
+      "O": 14,
+      "P": 1,
+      "H": 88
+    },
+    "formula": "C63H88CoN14O14P"
+  },
+  "vitamina-c": {
+    "total": 20,
+    "counts": {
+      "O": 6,
+      "C": 6,
+      "H": 8
+    },
+    "formula": "C6H8O6"
+  }
+}

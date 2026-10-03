@@ -92,7 +92,7 @@ export default function Home() {
       />
 
       {/* ========================================================
-          07. CONCLUSÃO, CRONOLOGIA & AUTORES
+          07. CRONOLOGIA & AUTORES
           ======================================================== */}
       <EditorialClosingCta />
 
@@ -104,13 +104,13 @@ export default function Home() {
               VITAMINAS &mdash; A QUÍMICA DA VIDA
             </span>
             <p className="text-xs text-white/40 font-sans font-light">
-              Exposição científica scrollytelling sobre bioquímica orgânica e nutrição humana.
+              Desenvolvido por Lucas e Pedro.
             </p>
           </div>
 
           <div className="text-[11px] text-white/35 text-center md:text-right">
-            <p>NEXT.JS &middot; THREE.JS &middot; GSAP SCROLLTRIGGER</p>
-            <p className="mt-0.5">AWWWARDS EDITORIAL DESIGN &middot; 2026</p>
+            <p>Copyright© 2026 Vita.</p>
+            <p className="mt-0.5">Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>

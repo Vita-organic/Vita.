@@ -1,3 +1,5 @@
+import { MOLECULES_3D, Atom3D, Bond3D } from "./molecules3d";
+
 export interface VitaminData {
   id: string;
   number: string;
@@ -34,13 +36,8 @@ export interface VitaminData {
   pubchemCid: number;
   symmetriaQuery: string;
   // 3D Ball & Stick atomic skeleton
-  atoms: Array<{
-    element: "C" | "H" | "O" | "N" | "P" | "S" | "Co";
-    x: number;
-    y: number;
-    z: number;
-  }>;
-  bonds: Array<[number, number]>;
+  atoms: Atom3D[];
+  bonds: Bond3D[];
 }
 
 export const VITAMINS_DATA: VitaminData[] = [
@@ -78,46 +75,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "retinol",
     accentColor: "#e8a830",
     pubchemCid: 445354,
-    symmetriaQuery: "Retinol Vitamin A",
-    // 3D coordinates representing beta-ionone ring + conjugated polyene chain + terminal -CH2OH
-    atoms: [
-      // beta-ionone ring carbons (0-5)
-      { element: "C", x: -4.5, y: 0.8, z: 0.0 },
-      { element: "C", x: -3.8, y: 1.9, z: 0.6 },
-      { element: "C", x: -2.3, y: 1.8, z: 0.4 },
-      { element: "C", x: -1.7, y: 0.6, z: -0.4 },
-      { element: "C", x: -2.4, y: -0.5, z: -0.9 },
-      { element: "C", x: -3.8, y: -0.4, z: -0.7 },
-      // Ring methyl groups (6-8)
-      { element: "C", x: -4.4, y: 2.2, z: 2.0 },
-      { element: "C", x: -4.0, y: 3.2, z: -0.2 },
-      { element: "C", x: -1.8, y: -1.7, z: -1.6 },
-      // Polyene conjugated chain carbons (9-17)
-      { element: "C", x: -0.2, y: 0.5, z: -0.3 },
-      { element: "C", x: 0.6, y: -0.4, z: 0.2 },
-      { element: "C", x: 2.0, y: -0.5, z: 0.2 },
-      { element: "C", x: 2.8, y: 0.5, z: -0.4 },
-      { element: "C", x: 4.2, y: 0.4, z: -0.3 },
-      { element: "C", x: 5.0, y: -0.5, z: 0.3 },
-      // Chain methyl substituents (15, 16)
-      { element: "C", x: 0.1, y: -1.7, z: 0.8 },
-      { element: "C", x: 2.4, y: 1.8, z: -1.0 },
-      // Terminal alcohol carbon & oxygen (17, 18)
-      { element: "C", x: 6.4, y: -0.6, z: 0.3 },
-      { element: "O", x: 7.1, y: 0.4, z: -0.3 },
-      { element: "H", x: 8.0, y: 0.3, z: -0.2 },
-      // Ring Hydrogens
-      { element: "H", x: -5.5, y: 0.8, z: 0.1 },
-      { element: "H", x: -1.8, y: 2.7, z: 0.8 },
-      { element: "H", x: -4.4, y: -1.2, z: -1.1 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-      [1, 6], [1, 7], [4, 8],
-      [3, 9], [9, 10], [10, 11], [11, 12], [12, 13], [13, 14],
-      [10, 15], [12, 16], [14, 17], [17, 18], [18, 19],
-      [0, 20], [2, 21], [5, 22]
-    ],
+    symmetriaQuery: "Retinol",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-a"].atoms,
+    bonds: MOLECULES_3D["vitamina-a"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -153,45 +114,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "calciferol",
     accentColor: "#f0a820",
     pubchemCid: 5280795,
-    symmetriaQuery: "Cholecalciferol Vitamin D3",
-    // 3D Secosteroid skeleton: Ring A with -OH, open B-ring triene, fused CD rings, aliphatic tail
-    atoms: [
-      // Ring A with -OH
-      { element: "C", x: -4.8, y: -1.2, z: 0.2 },
-      { element: "C", x: -5.5, y: 0.0, z: -0.2 },
-      { element: "O", x: -6.9, y: -0.1, z: -0.3 },
-      { element: "H", x: -7.3, y: 0.7, z: -0.5 },
-      { element: "C", x: -4.8, y: 1.2, z: 0.3 },
-      { element: "C", x: -3.3, y: 1.1, z: 0.1 },
-      { element: "C", x: -2.6, y: 0.0, z: -0.3 },
-      { element: "C", x: -3.3, y: -1.2, z: -0.1 },
-      // Open B ring conjugated triene
-      { element: "C", x: -1.2, y: 0.0, z: -0.6 },
-      { element: "C", x: -0.5, y: -1.1, z: -0.8 },
-      { element: "C", x: 0.9, y: -1.1, z: -0.7 },
-      { element: "C", x: 1.7, y: 0.0, z: -0.4 },
-      // Rings C and D (steroid core)
-      { element: "C", x: 3.2, y: -0.1, z: -0.2 },
-      { element: "C", x: 3.8, y: -1.4, z: 0.4 },
-      { element: "C", x: 5.3, y: -1.3, z: 0.5 },
-      { element: "C", x: 5.9, y: -0.1, z: -0.2 },
-      { element: "C", x: 5.2, y: 1.1, z: -0.6 },
-      { element: "C", x: 3.7, y: 1.1, z: -0.5 },
-      // Methyl at C18
-      { element: "C", x: 3.4, y: 2.1, z: 0.6 },
-      // Aliphatic tail
-      { element: "C", x: 7.4, y: 0.0, z: -0.2 },
-      { element: "C", x: 8.2, y: -1.2, z: 0.2 },
-      { element: "C", x: 9.7, y: -1.1, z: 0.1 },
-      { element: "C", x: 10.4, y: -0.0, z: -0.7 },
-      { element: "C", x: 11.9, y: 0.1, z: -0.7 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [6, 7], [7, 0],
-      [6, 8], [8, 9], [9, 10], [10, 11],
-      [11, 12], [12, 13], [13, 14], [14, 15], [15, 16], [16, 17], [17, 12],
-      [17, 18], [15, 19], [19, 20], [20, 21], [21, 22], [22, 23]
-    ],
+    symmetriaQuery: "Cholecalciferol",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-d"].atoms,
+    bonds: MOLECULES_3D["vitamina-d"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -228,43 +154,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "tocopherol",
     accentColor: "#d4880a",
     pubchemCid: 14985,
-    symmetriaQuery: "alpha-Tocopherol Vitamin E",
-    // 3D chroman ring (phenol + cyclic ether) + phytyl isoprenoid tail
-    atoms: [
-      // Chroman Ring A (phenolic benzene ring)
-      { element: "C", x: -5.2, y: 0.0, z: 0.0 },
-      { element: "C", x: -4.5, y: 1.2, z: 0.0 },
-      { element: "O", x: -5.1, y: 2.4, z: 0.0 },
-      { element: "H", x: -4.5, y: 3.1, z: 0.0 },
-      { element: "C", x: -3.1, y: 1.1, z: 0.0 },
-      { element: "C", x: -2.4, y: -0.1, z: 0.0 },
-      { element: "C", x: -3.1, y: -1.3, z: 0.0 },
-      { element: "C", x: -4.5, y: -1.2, z: 0.0 },
-      // Ring B (dihydropyran ether ring)
-      { element: "O", x: -1.0, y: -0.1, z: 0.1 },
-      { element: "C", x: -0.4, y: -1.3, z: 0.4 },
-      { element: "C", x: -1.2, y: -2.5, z: 0.0 },
-      { element: "C", x: -2.5, y: -2.5, z: -0.4 },
-      // Methyl groups on chroman ring
-      { element: "C", x: -2.3, y: 2.3, z: 0.0 },
-      { element: "C", x: -5.3, y: -2.5, z: 0.0 },
-      { element: "C", x: 0.8, y: -1.4, z: -0.4 },
-      // Phytyl saturated tail (chain of carbons)
-      { element: "C", x: -0.1, y: -1.2, z: 1.9 },
-      { element: "C", x: 1.2, y: -1.7, z: 2.4 },
-      { element: "C", x: 2.4, y: -0.8, z: 2.1 },
-      { element: "C", x: 3.7, y: -1.4, z: 2.6 },
-      { element: "C", x: 4.9, y: -0.5, z: 2.3 },
-      { element: "C", x: 6.2, y: -1.1, z: 2.8 },
-      { element: "C", x: 7.4, y: -0.2, z: 2.4 },
-      { element: "C", x: 8.7, y: -0.8, z: 2.9 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [1, 4], [4, 5], [5, 6], [6, 7], [7, 0],
-      [5, 8], [8, 9], [9, 10], [10, 11], [11, 6],
-      [4, 12], [7, 13], [9, 14],
-      [9, 15], [15, 16], [16, 17], [17, 18], [18, 19], [19, 20], [20, 21], [21, 22]
-    ],
+    symmetriaQuery: "alpha-Tocopherol",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-e"].atoms,
+    bonds: MOLECULES_3D["vitamina-e"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -299,40 +192,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "phylloquinone",
     accentColor: "#c9944d",
     pubchemCid: 5280483,
-    symmetriaQuery: "Phylloquinone Vitamin K1",
-    // 3D 1,4-naphthoquinone core (dione) + polyisoprenyl phytyl tail
-    atoms: [
-      // Fused Benzene Ring
-      { element: "C", x: -5.5, y: 1.2, z: 0.0 },
-      { element: "C", x: -4.1, y: 1.2, z: 0.0 },
-      { element: "C", x: -3.4, y: 0.0, z: 0.0 },
-      { element: "C", x: -4.1, y: -1.2, z: 0.0 },
-      { element: "C", x: -5.5, y: -1.2, z: 0.0 },
-      { element: "C", x: -6.2, y: 0.0, z: 0.0 },
-      // Quinone Ring with 2 C=O Ketones
-      { element: "C", x: -1.9, y: 0.0, z: 0.0 },
-      { element: "C", x: -1.2, y: 1.2, z: 0.0 },
-      { element: "O", x: -1.8, y: 2.3, z: 0.0 },
-      { element: "C", x: 0.3, y: 1.2, z: 0.0 },
-      { element: "C", x: 0.8, y: 2.5, z: 0.0 },
-      { element: "C", x: 1.0, y: 0.0, z: 0.0 },
-      { element: "C", x: 0.3, y: -1.2, z: 0.0 },
-      { element: "O", x: 0.9, y: -2.3, z: 0.0 },
-      { element: "C", x: -1.2, y: -1.2, z: 0.0 },
-      // Phytyl tail attached at C3
-      { element: "C", x: 2.5, y: -0.1, z: 0.0 },
-      { element: "C", x: 3.3, y: 0.9, z: 0.0 },
-      { element: "C", x: 2.9, y: 2.3, z: 0.0 },
-      { element: "C", x: 4.8, y: 0.7, z: 0.0 },
-      { element: "C", x: 5.6, y: 1.8, z: 0.2 },
-      { element: "C", x: 7.1, y: 1.6, z: 0.1 },
-      { element: "C", x: 8.0, y: 2.7, z: 0.3 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-      [2, 6], [6, 7], [7, 8], [7, 9], [9, 10], [9, 11], [11, 12], [12, 13], [12, 14], [14, 3],
-      [11, 15], [15, 16], [16, 17], [16, 18], [18, 19], [19, 20], [20, 21]
-    ],
+    symmetriaQuery: "Phylloquinone",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-k"].atoms,
+    bonds: MOLECULES_3D["vitamina-k"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -371,44 +234,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "thiamine",
     accentColor: "#4a9eda",
     pubchemCid: 1130,
-    symmetriaQuery: "Thiamine Vitamin B1",
-    // 3D Pyrimidine ring linked via methylene bridge to Thiazolium ring with hydroxyethyl group
-    atoms: [
-      // Pyrimidine ring (atoms 0-5)
-      { element: "N", x: -4.2, y: 1.2, z: 0.0 },
-      { element: "C", x: -2.9, y: 1.2, z: 0.0 },
-      { element: "C", x: -2.2, y: 0.0, z: 0.0 },
-      { element: "C", x: -2.9, y: -1.2, z: 0.0 },
-      { element: "N", x: -4.2, y: -1.2, z: 0.0 },
-      { element: "C", x: -4.8, y: 0.0, z: 0.0 },
-      // Amino group -NH2 on C4
-      { element: "N", x: -2.2, y: 2.4, z: 0.0 },
-      { element: "H", x: -2.7, y: 3.2, z: 0.0 },
-      // Methyl on C2
-      { element: "C", x: -6.3, y: 0.0, z: 0.0 },
-      // Methylene bridge -CH2- linking rings
-      { element: "C", x: -0.7, y: 0.0, z: 0.0 },
-      // Thiazolium ring (atoms 10-14)
-      { element: "N", x: 0.3, y: 0.9, z: 0.0 },
-      { element: "C", x: 1.6, y: 0.5, z: 0.0 },
-      { element: "S", x: 1.7, y: -1.2, z: 0.0 },
-      { element: "C", x: 0.1, y: -1.3, z: 0.0 },
-      { element: "C", x: -0.4, y: -0.1, z: 0.0 },
-      // Substituents on thiazole: Methyl on C4
-      { element: "C", x: 0.0, y: 2.3, z: 0.0 },
-      // Hydroxyethyl chain -CH2-CH2-OH on C5
-      { element: "C", x: 2.8, y: 1.3, z: 0.0 },
-      { element: "C", x: 4.1, y: 0.5, z: 0.0 },
-      { element: "O", x: 5.2, y: 1.3, z: 0.0 },
-      { element: "H", x: 6.0, y: 0.9, z: 0.0 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-      [1, 6], [6, 7], [5, 8],
-      [2, 9], [9, 10],
-      [10, 11], [11, 12], [12, 13], [13, 10],
-      [10, 15], [11, 16], [16, 17], [17, 18], [18, 19]
-    ],
+    symmetriaQuery: "Thiamine",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-b1"].atoms,
+    bonds: MOLECULES_3D["vitamina-b1"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -448,46 +277,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "riboflavin",
     accentColor: "#3a8fc7",
     pubchemCid: 493570,
-    symmetriaQuery: "Riboflavin Vitamin B2",
-    // 3D Isoalloxazine tricyclic ring + ribityl sugar polyol side chain
-    atoms: [
-      // Benzene ring of isoalloxazine
-      { element: "C", x: -4.5, y: 1.2, z: 0.0 },
-      { element: "C", x: -3.1, y: 1.2, z: 0.0 },
-      { element: "C", x: -2.4, y: 0.0, z: 0.0 },
-      { element: "C", x: -3.1, y: -1.2, z: 0.0 },
-      { element: "C", x: -4.5, y: -1.2, z: 0.0 },
-      { element: "C", x: -5.2, y: 0.0, z: 0.0 },
-      // Methyl groups at C7 and C8
-      { element: "C", x: -5.2, y: 2.5, z: 0.0 },
-      { element: "C", x: -5.2, y: -2.5, z: 0.0 },
-      // Pyrazine middle ring
-      { element: "N", x: -1.1, y: 1.2, z: 0.0 },
-      { element: "C", x: -0.4, y: 0.0, z: 0.0 },
-      { element: "N", x: -1.1, y: -1.2, z: 0.0 },
-      // Pyrimidine-2,4-dione (uracil-like ring)
-      { element: "C", x: 1.0, y: 0.0, z: 0.0 },
-      { element: "O", x: 1.6, y: -1.1, z: 0.0 },
-      { element: "N", x: 1.7, y: 1.2, z: 0.0 },
-      { element: "C", x: 1.0, y: 2.4, z: 0.0 },
-      { element: "O", x: 1.6, y: 3.5, z: 0.0 },
-      { element: "C", x: -0.4, y: 2.4, z: 0.0 },
-      // Ribityl side chain attached to N10 (-1.1, -1.2)
-      { element: "C", x: -0.6, y: -2.6, z: 0.0 },
-      { element: "C", x: 0.9, y: -2.7, z: 0.2 },
-      { element: "O", x: 1.3, y: -3.9, z: -0.4 },
-      { element: "C", x: 1.5, y: -2.6, z: 1.6 },
-      { element: "O", x: 2.8, y: -2.3, z: 1.4 },
-      { element: "C", x: 1.2, y: -4.0, z: 2.3 },
-      { element: "O", x: 1.7, y: -3.9, z: 3.6 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-      [0, 6], [4, 7],
-      [1, 8], [8, 9], [9, 10], [10, 3], [2, 9],
-      [9, 11], [11, 12], [11, 13], [13, 14], [14, 15], [14, 16], [16, 8],
-      [10, 17], [17, 18], [18, 19], [18, 20], [20, 21], [20, 22], [22, 23]
-    ],
+    symmetriaQuery: "Riboflavin",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-b2"].atoms,
+    bonds: MOLECULES_3D["vitamina-b2"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -527,37 +320,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "pyridoxine",
     accentColor: "#2a7fc4",
     pubchemCid: 1054,
-    symmetriaQuery: "Pyridoxine Vitamin B6",
-    // 3D Pyridine ring substituted with -OH, -CH3, and two -CH2OH / aldehyde groups
-    atoms: [
-      // Pyridine ring (atoms 0-5)
-      { element: "N", x: -0.6, y: -1.7, z: 0.0 },
-      { element: "C", x: 0.7, y: -1.7, z: 0.0 },
-      { element: "C", x: 1.4, y: -0.5, z: 0.0 },
-      { element: "C", x: 0.7, y: 0.7, z: 0.0 },
-      { element: "C", x: -0.7, y: 0.7, z: 0.0 },
-      { element: "C", x: -1.4, y: -0.5, z: 0.0 },
-      // Enol / Phenolic -OH on C3 (-0.7, 0.7)
-      { element: "O", x: -1.4, y: 1.9, z: 0.0 },
-      { element: "H", x: -0.8, y: 2.6, z: 0.0 },
-      // Hydroxymethyl on C4 (0.7, 0.7)
-      { element: "C", x: 1.4, y: 2.0, z: 0.0 },
-      { element: "O", x: 2.8, y: 1.9, z: 0.0 },
-      { element: "H", x: 3.2, y: 2.7, z: 0.0 },
-      // Hydroxymethyl on C5 (1.4, -0.5)
-      { element: "C", x: 2.9, y: -0.5, z: 0.0 },
-      { element: "O", x: 3.5, y: -1.7, z: 0.0 },
-      { element: "H", x: 4.4, y: -1.6, z: 0.0 },
-      // Methyl on C2 (-1.4, -0.5)
-      { element: "C", x: -2.9, y: -0.5, z: 0.0 },
-    ],
-    bonds: [
-      [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0],
-      [4, 6], [6, 7],
-      [3, 8], [8, 9], [9, 10],
-      [2, 11], [11, 12], [12, 13],
-      [5, 14]
-    ],
+    symmetriaQuery: "Pyridoxine",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-b6"].atoms,
+    bonds: MOLECULES_3D["vitamina-b6"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -597,55 +363,10 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "cobalamin",
     accentColor: "#7b68ee",
     pubchemCid: 5311498,
-    symmetriaQuery: "Cobalamin Vitamin B12",
-    // 3D Corrin ring with central Cobalt (Co) ion, 4 pyrrolic nitrogens, propionamide side chains
-    atoms: [
-      // Central Cobalt atom
-      { element: "Co", x: 0.0, y: 0.0, z: 0.0 },
-      // 4 Coordinating Nitrogens of Corrin Ring
-      { element: "N", x: 1.9, y: 0.2, z: 0.0 },
-      { element: "N", x: 0.2, y: 1.9, z: 0.0 },
-      { element: "N", x: -1.9, y: -0.2, z: 0.0 },
-      { element: "N", x: -0.2, y: -1.9, z: 0.0 },
-      // Corrin Ring Carbons (Pyrrole Ring 1)
-      { element: "C", x: 2.8, y: 1.2, z: 0.2 },
-      { element: "C", x: 4.1, y: 0.5, z: 0.3 },
-      { element: "C", x: 3.9, y: -0.9, z: 0.1 },
-      { element: "C", x: 2.6, y: -1.1, z: -0.1 },
-      // Corrin Ring Carbons (Pyrrole Ring 2)
-      { element: "C", x: 1.2, y: 2.8, z: 0.2 },
-      { element: "C", x: 0.6, y: 4.1, z: 0.3 },
-      { element: "C", x: -0.8, y: 3.9, z: 0.1 },
-      { element: "C", x: -1.1, y: 2.6, z: -0.1 },
-      // Corrin Ring Carbons (Pyrrole Ring 3)
-      { element: "C", x: -2.8, y: 1.0, z: -0.1 },
-      { element: "C", x: -4.1, y: 0.3, z: -0.2 },
-      { element: "C", x: -3.9, y: -1.1, z: -0.1 },
-      { element: "C", x: -2.5, y: -1.2, z: 0.1 },
-      // Corrin Ring Carbons (Pyrrole Ring 4)
-      { element: "C", x: -1.0, y: -2.8, z: 0.1 },
-      { element: "C", x: -0.4, y: -4.1, z: 0.2 },
-      { element: "C", x: 1.0, y: -3.8, z: 0.1 },
-      { element: "C", x: 1.1, y: -2.4, z: -0.1 },
-      // Amide periphery groups
-      { element: "O", x: 5.3, y: 0.9, z: 0.4 },
-      { element: "N", x: 4.5, y: -2.0, z: 0.1 },
-      { element: "O", x: 1.0, y: 5.3, z: 0.4 },
-      // Lower Axial Nucleotide Base (Dimethylbenzimidazole) & Phosphorus
-      { element: "P", x: 0.0, y: -0.8, z: -3.6 },
-      { element: "O", x: -1.2, y: -0.7, z: -4.4 },
-      { element: "O", x: 1.2, y: -0.7, z: -4.4 },
-    ],
-    bonds: [
-      [0, 1], [0, 2], [0, 3], [0, 4],
-      [1, 5], [5, 6], [6, 7], [7, 8], [8, 1],
-      [2, 9], [9, 10], [10, 11], [11, 12], [12, 2],
-      [3, 13], [13, 14], [14, 15], [15, 16], [16, 3],
-      [4, 17], [17, 18], [18, 19], [19, 20], [20, 4],
-      [5, 9], [12, 13], [16, 17], [20, 8],
-      [6, 21], [7, 22], [10, 23],
-      [0, 24], [24, 25], [24, 26]
-    ],
+    symmetriaQuery: "Cyanocobalamin",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-b12"].atoms,
+    bonds: MOLECULES_3D["vitamina-b12"].bonds,
   },
 
   // -------------------------------------------------------------
@@ -689,37 +410,9 @@ export const VITAMINS_DATA: VitaminData[] = [
     chemicalSvgType: "ascorbic_acid",
     accentColor: "#3498db",
     pubchemCid: 54670067,
-    symmetriaQuery: "Ascorbic acid Vitamin C",
-    // 3D Furanone lactone ring (C1-C4 + O), enediol C2=C3 with OH groups, dihydroxyethyl tail
-    atoms: [
-      // Furanone Lactone Ring (atoms 0-4)
-      { element: "C", x: -0.7, y: 1.0, z: 0.0 }, // C1 carbonyl
-      { element: "O", x: -1.7, y: 1.7, z: 0.0 }, // =O carbonyl
-      { element: "C", x: 0.6, y: 1.4, z: 0.0 },  // C2 enol
-      { element: "O", x: 0.9, y: 2.7, z: 0.0 },  // C2-OH
-      { element: "H", x: 1.9, y: 2.8, z: 0.0 },
-      { element: "C", x: 1.5, y: 0.3, z: 0.0 },  // C3 enol
-      { element: "O", x: 2.8, y: 0.4, z: 0.0 },  // C3-OH
-      { element: "H", x: 3.3, y: -0.4, z: 0.0 },
-      { element: "C", x: 0.8, y: -1.0, z: 0.0 }, // C4 chiral
-      { element: "O", x: -0.6, y: -0.4, z: 0.0 },// Ring Oxygen (lactone ether)
-      // Dihydroxyethyl tail attached at C4
-      { element: "C", x: 1.2, y: -2.0, z: -1.1 }, // C5
-      { element: "O", x: 0.4, y: -3.2, z: -1.0 }, // C5-OH
-      { element: "H", x: 0.7, y: -3.9, z: -1.6 },
-      { element: "C", x: 2.7, y: -2.3, z: -1.0 }, // C6
-      { element: "O", x: 3.1, y: -3.2, z: -0.0 }, // C6-OH
-      { element: "H", x: 4.0, y: -3.4, z: -0.0 },
-      // Ring hydrogens
-      { element: "H", x: 1.1, y: -1.4, z: 0.9 },
-    ],
-    bonds: [
-      [0, 1], [0, 2], [2, 3], [3, 4],
-      [2, 5], [5, 6], [6, 7],
-      [5, 8], [8, 9], [9, 0],
-      [8, 10], [10, 11], [11, 12],
-      [10, 13], [13, 14], [14, 15],
-      [8, 16]
-    ],
+    symmetriaQuery: "Ascorbic acid",
+    // Estrutura 3D real (PubChem / RCSB) — ver data/molecules3d.ts
+    atoms: MOLECULES_3D["vitamina-c"].atoms,
+    bonds: MOLECULES_3D["vitamina-c"].bonds,
   },
 ];

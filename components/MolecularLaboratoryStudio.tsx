@@ -55,11 +55,10 @@ export const MolecularLaboratoryStudio: React.FC<MolecularLaboratoryStudioProps>
               <button
                 key={v.id}
                 onClick={() => handleSelect(v)}
-                className={`px-4 sm:px-6 py-2.5 rounded-full text-xs font-mono tracking-widest uppercase transition-all duration-300 cursor-pointer whitespace-nowrap ${
-                  isSelected
+                className={`px-4 sm:px-6 py-2.5 rounded-full text-xs font-mono tracking-widest uppercase transition-all duration-300 cursor-pointer whitespace-nowrap ${isSelected
                     ? "bg-white text-black font-semibold shadow-lg"
                     : "text-white/40 hover:text-white hover:bg-white/[0.04] border border-white/10"
-                }`}
+                  }`}
               >
                 VITAMINA {v.letter}
               </button>

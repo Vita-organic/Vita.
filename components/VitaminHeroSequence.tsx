@@ -156,7 +156,7 @@ export const VitaminHeroSequence: React.FC = () => {
           if (img.decode) {
             try {
               await img.decode();
-            } catch {}
+            } catch { }
           }
           if (!isCancelled) frames[i] = img;
         }
@@ -233,24 +233,36 @@ export const VitaminHeroSequence: React.FC = () => {
     const frameState = { frame: 0 };
 
     const ctx = gsap.context(() => {
-      // 1. Initial entrance for hero elements on page load
-      gsap.from([topBarRef.current, bottomBarRef.current], {
-        opacity: 0,
-        y: -10,
-        duration: 1.2,
-        ease: "power2.out",
-        delay: 0.2,
-      });
+      // 1. Initial entrance for hero elements on page load only if near top
+      if (typeof window !== "undefined" && window.scrollY < 100) {
+        gsap.fromTo(
+          [topBarRef.current, bottomBarRef.current],
+          { opacity: 0, y: -10 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.0,
+            ease: "power2.out",
+            delay: 0.1,
+            overwrite: "auto",
+          }
+        );
 
-      gsap.from(heroBeat1Ref.current, {
-        opacity: 0,
-        y: 35,
-        duration: 1.4,
-        ease: "power3.out",
-        delay: 0.4,
-      });
+        gsap.fromTo(
+          heroBeat1Ref.current,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: "power3.out",
+            delay: 0.2,
+            overwrite: "auto",
+          }
+        );
+      }
 
-      // 2. Continuous scrub timeline across 260vh scroll with tight 0.6s scrub
+      // 2. Continuous scrub timeline across 260vh scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
@@ -283,42 +295,47 @@ export const VitaminHeroSequence: React.FC = () => {
         0
       );
 
-      // Beat 1 fades out as user scrolls
+      // Beat 1 ("VITAMINAS") fades out cleanly as user scrolls down
       tl.to(
         heroBeat1Ref.current,
         {
-          opacity: 0,
+          autoAlpha: 0,
           y: -50,
           ease: "power2.inOut",
-          duration: 0.35,
+          duration: 0.25,
         },
-        0.15
+        0.08
       );
 
       // Beat 2 emerges in the center: The Philosophical Axiom
       tl.fromTo(
         heroBeat2Ref.current,
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, ease: "power2.out", duration: 0.3 },
-        0.35
+        { autoAlpha: 0, y: 40 },
+        { autoAlpha: 1, y: 0, ease: "power2.out", duration: 0.3 },
+        0.32
       );
 
       // Beat 2 fades out towards end of hero
       tl.to(
         heroBeat2Ref.current,
-        { opacity: 0, y: -40, ease: "power2.in", duration: 0.25 },
-        0.75
+        { autoAlpha: 0, y: -40, ease: "power2.in", duration: 0.25 },
+        0.72
       );
 
-      // Bottom bar fades on scroll
+      // Bottom bar fades out on scroll
       tl.to(
         bottomBarRef.current,
-        { opacity: 0, ease: "power2.out", duration: 0.2 },
-        0.1
+        { autoAlpha: 0, ease: "power2.out", duration: 0.15 },
+        0.05
       );
     }, containerRef);
 
     drawFrame(0);
+
+    // Refresh ScrollTrigger calculations after initial layout paint
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
 
     return () => {
       ctx.revert();
@@ -357,7 +374,7 @@ export const VitaminHeroSequence: React.FC = () => {
               </div>
 
               <div className="text-right text-xs font-mono tracking-[0.25em] text-white/40 uppercase">
-                ESTUDO CIENTÍFICO &middot; 01
+                ESTUDO CIENTÍFICO
               </div>
             </div>
 
@@ -369,7 +386,7 @@ export const VitaminHeroSequence: React.FC = () => {
               <h1 className="font-editorial text-[18vw] sm:text-[15vw] lg:text-[13rem] leading-[0.85] tracking-[-0.03em] text-[#f5efe6] font-light">
                 VITAMINAS
               </h1>
-              <p className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-meltow text-[#e8a830] tracking-normal font-normal">
+              <p className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#e8a830] tracking-normal font-normal">
                 A Química da Vida
               </p>
             </div>
@@ -392,25 +409,21 @@ export const VitaminHeroSequence: React.FC = () => {
               </p>
             </div>
 
-            {/* Bottom Bar: Clean Scroll Invitation */}
+            {/* Bottom Bar: Clean Centered Scroll Invitation */}
             <div
               ref={bottomBarRef}
-              className="w-full flex items-end justify-between text-white/40 pt-4 border-t border-white/[0.06]"
+              className="w-full flex items-center justify-center text-white/40 pt-4 border-t border-white/[0.06]"
             >
-              <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase">
-                EXPOSIÇÃO CONTÍNUA
-              </span>
+              <div className="flex flex-col items-center justify-center space-y-2 pointer-events-none select-none">
+                {/* Vertical Indicator Line with animated light pulse */}
+                <div className="relative w-[1px] h-7 bg-white/15 overflow-hidden">
+                  <div className="w-full h-3.5 bg-gradient-to-b from-white/90 to-transparent animate-scroll-line" />
+                </div>
 
-              <div className="flex flex-col items-center space-y-2">
-                <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-white/60">
+                <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.3em] uppercase text-white/60">
                   ROLE PARA EXPLORAR
                 </span>
-                <div className="w-[1px] h-8 bg-gradient-to-b from-white/60 to-transparent" />
               </div>
-
-              <span className="text-[10px] sm:text-[11px] font-mono tracking-[0.25em] uppercase text-right">
-                13 COMPOSTOS VITAIS
-              </span>
             </div>
           </div>
         </div>
