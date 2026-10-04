@@ -35,7 +35,7 @@ export const LoadingSequence: React.FC<LoadingSequenceProps> = ({
           document.body.style.overflow = "";
           document.documentElement.style.overflow = "";
           document.body.style.touchAction = "";
-        }, 3000);
+        }, 2000);
       };
     }
   }, [shouldRender]);
