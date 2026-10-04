@@ -28,11 +28,21 @@ export const VitaminHeroSequence: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [loadProgress, setLoadProgress] = useState<number>(0);
+  const [isLoadedComplete, setIsLoadedComplete] = useState<boolean>(false);
 
-  const getFramePath = (index: number, ext: "webp" | "png" = "webp"): string => {
-    const pad = String(index + 1).padStart(3, "0");
-    return `/molecule-3d-fps/ezgif-frame-${pad}.${ext}`;
-  };
+  const handleLoadingComplete = useCallback(() => {
+    setIsLoadedComplete(true);
+  }, []);
+
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+
+  const getFramePath = useCallback(
+    (index: number, ext: "webp" | "png" = "webp"): string => {
+      const pad = String(index + 1).padStart(3, "0");
+      return `${basePath}/molecule-3d-fps/ezgif-frame-${pad}.${ext}`;
+    },
+    [basePath]
+  );
 
   // High performance Canvas drawing
   const renderFrameToCanvas = useCallback((frameIndex: number) => {
@@ -222,26 +232,26 @@ export const VitaminHeroSequence: React.FC = () => {
         }
       });
     };
-  }, [drawFrame, renderFrameToCanvas, updateCanvasDimensions]);
+  }, [drawFrame, renderFrameToCanvas, updateCanvasDimensions, getFramePath]);
 
   // GSAP ScrollTrigger timeline orchestrating frame scrub & editorial typography
   useEffect(() => {
-    if (isLoading || !containerRef.current || !canvasRef.current) return;
+    if (!isLoadedComplete || !containerRef.current || !canvasRef.current) return;
 
     updateCanvasDimensions();
 
     const frameState = { frame: 0 };
 
     const ctx = gsap.context(() => {
-      // 1. Initial entrance for hero elements on page load only if near top
+      // 1. Initial entrance for hero elements only after loading screen is completed
       if (typeof window !== "undefined" && window.scrollY < 100) {
         gsap.fromTo(
-          [topBarRef.current, bottomBarRef.current],
-          { opacity: 0, y: -10 },
+          topBarRef.current,
+          { opacity: 0, y: -15 },
           {
             opacity: 1,
             y: 0,
-            duration: 1.0,
+            duration: 0.9,
             ease: "power2.out",
             delay: 0.1,
             overwrite: "auto",
@@ -250,16 +260,34 @@ export const VitaminHeroSequence: React.FC = () => {
 
         gsap.fromTo(
           heroBeat1Ref.current,
-          { opacity: 0, y: 30 },
+          { opacity: 0, y: 35 },
           {
             opacity: 1,
             y: 0,
             duration: 1.2,
             ease: "power3.out",
-            delay: 0.2,
+            delay: 0.25,
             overwrite: "auto",
           }
         );
+
+        gsap.fromTo(
+          bottomBarRef.current,
+          { opacity: 0, y: 15 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.9,
+            ease: "power2.out",
+            delay: 0.45,
+            overwrite: "auto",
+          }
+        );
+      } else {
+        gsap.set([topBarRef.current, bottomBarRef.current, heroBeat1Ref.current], {
+          opacity: 1,
+          y: 0,
+        });
       }
 
       // 2. Continuous scrub timeline across 260vh scroll
@@ -340,11 +368,15 @@ export const VitaminHeroSequence: React.FC = () => {
     return () => {
       ctx.revert();
     };
-  }, [isLoading, drawFrame, updateCanvasDimensions]);
+  }, [isLoadedComplete, drawFrame, updateCanvasDimensions]);
 
   return (
     <>
-      <LoadingSequence isLoading={isLoading} progress={loadProgress} />
+      <LoadingSequence
+        isLoading={isLoading}
+        progress={loadProgress}
+        onComplete={handleLoadingComplete}
+      />
 
       <section
         ref={containerRef}
@@ -366,7 +398,7 @@ export const VitaminHeroSequence: React.FC = () => {
           {/* Editorial Typography Overlay Layer */}
           <div className="absolute inset-0 z-20 pointer-events-none select-none flex flex-col justify-between p-6 sm:p-12 md:p-16 lg:p-20 text-[#f5efe6]">
             {/* Top Bar: Editorial Header */}
-            <div ref={topBarRef} className="w-full flex items-center justify-between">
+            <div ref={topBarRef} className="w-full flex items-center justify-between opacity-0">
               <div className="flex items-center space-x-3 text-xs font-mono tracking-[0.3em] uppercase text-white/50">
                 <span>BIOQUÍMICA MOLECULAR</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#e8a830]" />
@@ -381,7 +413,7 @@ export const VitaminHeroSequence: React.FC = () => {
             {/* Center Stage: Beat 1 (Grand Title + Custom Font Subtitle) */}
             <div
               ref={heroBeat1Ref}
-              className="w-full my-auto flex flex-col items-center text-center px-4"
+              className="w-full my-auto flex flex-col items-center text-center px-4 opacity-0"
             >
               <h1 className="font-editorial text-[18vw] sm:text-[15vw] lg:text-[13rem] leading-[0.85] tracking-[-0.03em] text-[#f5efe6] font-light">
                 VITAMINAS
@@ -412,7 +444,7 @@ export const VitaminHeroSequence: React.FC = () => {
             {/* Bottom Bar: Clean Centered Scroll Invitation */}
             <div
               ref={bottomBarRef}
-              className="w-full flex items-center justify-center text-white/40 pt-4 border-t border-white/[0.06]"
+              className="w-full flex items-center justify-center text-white/40 pt-4 border-t border-white/[0.06] opacity-0"
             >
               <div className="flex flex-col items-center justify-center space-y-2 pointer-events-none select-none">
                 {/* Vertical Indicator Line with animated light pulse */}

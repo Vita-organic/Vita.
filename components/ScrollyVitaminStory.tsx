@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useSyncExternalStore } from "react";
 import { VitaminData } from "@/data/vitamins";
 import { ScrollyVitaminStoryDesktop } from "./ScrollyVitaminStoryDesktop";
 import { ScrollyVitaminStoryMobile } from "./ScrollyVitaminStoryMobile";
@@ -10,23 +10,28 @@ interface ScrollyVitaminStoryProps {
   index: number;
 }
 
+const emptySubscribe = () => () => {};
+
+const subscribeResize = (callback: () => void) => {
+  window.addEventListener("resize", callback, { passive: true });
+  return () => window.removeEventListener("resize", callback);
+};
+
 export const ScrollyVitaminStory: React.FC<ScrollyVitaminStoryProps> = ({
   vitamin,
   index,
 }) => {
-  const [isDesktop, setIsDesktop] = useState<boolean>(true);
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
 
-  useEffect(() => {
-    setIsMounted(true);
-    const updateScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-
-    updateScreenSize();
-    window.addEventListener("resize", updateScreenSize, { passive: true });
-    return () => window.removeEventListener("resize", updateScreenSize);
-  }, []);
+  const isDesktop = useSyncExternalStore(
+    subscribeResize,
+    () => window.innerWidth >= 1024,
+    () => true
+  );
 
   // SSR skeleton placeholder to prevent layout shifts
   if (!isMounted) {

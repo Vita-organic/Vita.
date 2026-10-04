@@ -1,79 +1,124 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 interface LoadingSequenceProps {
   isLoading: boolean;
-  progress: number;
+  progress?: number;
+  onComplete?: () => void;
 }
 
 export const LoadingSequence: React.FC<LoadingSequenceProps> = ({
   isLoading,
-  progress,
+  progress = 0,
+  onComplete,
 }) => {
   const [shouldRender, setShouldRender] = useState<boolean>(true);
-  const [isFading, setIsFading] = useState<boolean>(false);
+  const [isExiting, setIsExiting] = useState<boolean>(false);
+  const [displayedPercent, setDisplayedPercent] = useState<number>(0);
 
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
+
+  // Lock scroll while the loading overlay is present (Desktop + Mobile)
+  useEffect(() => {
+    if (shouldRender) {
+      // Bloqueia no Desktop e Mobile
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+
+      return () => {
+        setTimeout(() => {
+          document.body.style.overflow = "";
+          document.documentElement.style.overflow = "";
+          document.body.style.touchAction = "";
+        }, 3000);
+      };
+    }
+  }, [shouldRender]);
+
+
+
+  // Smooth counter animation
+  useEffect(() => {
+    const target = Math.min(100, Math.max(0, Math.round(progress)));
+    const interval = setInterval(() => {
+      setDisplayedPercent((prev) => {
+        if (prev < target) return prev + 1;
+        return target;
+      });
+    }, 15);
+    return () => clearInterval(interval);
+  }, [progress]);
+
+  // Curtain exit transition when loading finishes
   useEffect(() => {
     if (!isLoading) {
-      setIsFading(true);
-      const timer = setTimeout(() => {
+      const exitTimer = setTimeout(() => {
+        setIsExiting(true);
+      }, 200);
+
+      const unmountTimer = setTimeout(() => {
         setShouldRender(false);
-      }, 700);
-      return () => clearTimeout(timer);
+        onCompleteRef.current?.();
+      }, 1100);
+
+      return () => {
+        clearTimeout(exitTimer);
+        clearTimeout(unmountTimer);
+      };
     }
   }, [isLoading]);
+
+  const currentPercent = !isLoading ? 100 : displayedPercent;
 
   if (!shouldRender) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#070605] text-[#f7f2ea] transition-opacity duration-700 ease-out ${
-        isFading ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
+      className={`fixed inset-0 z-[100] flex flex-col justify-between bg-[#060504] text-[#f5efe6] pointer-events-auto select-none overflow-hidden transition-all duration-900 ease-[cubic-bezier(0.76,0,0.24,1)] ${isExiting
+        ? "-translate-y-full opacity-90 pointer-events-none"
+        : "translate-y-0 opacity-100"
+        }`}
     >
-      {/* Subtle Ambient Glow */}
+      {/* Subtle ambient luxury glow */}
       <div
-        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none opacity-40"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none opacity-40 blur-3xl"
         style={{
-          background: "radial-gradient(circle, rgba(232, 168, 48, 0.12) 0%, transparent 70%)",
+          background:
+            "radial-gradient(circle, rgba(232, 168, 48, 0.12) 0%, rgba(99, 102, 241, 0.05) 45%, transparent 70%)",
         }}
       />
 
-      {/* Center Content */}
-      <div className="relative z-10 flex flex-col items-center max-w-sm px-6 text-center">
-        {/* Minimal Icon / Crosshair */}
-        <div className="relative w-10 h-10 mb-8 flex items-center justify-center text-white/50">
-          <div className="absolute inset-0 border border-white/20 rounded-full animate-ping opacity-30" />
-          <div className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          </div>
+      {/* Center Hero: Wordmark "Vita." Awwwards Style */}
+      <div className="relative z-10 flex flex-col items-center justify-center my-auto px-6 text-center">
+        {/* Brand Title: Vita. */}
+        <div className="overflow-hidden py-1">
+          <h1 className="font-editorial italic text-7xl sm:text-8xl md:text-9xl font-light tracking-tight text-white leading-none flex items-baseline">
+            <span className="inline-block transition-transform duration-700 delay-75 ease-out">
+              Vita
+            </span>
+            <span className="text-amber-400 inline-block font-serif transition-transform duration-700 delay-150 ease-out">
+              .
+            </span>
+          </h1>
         </div>
 
-        {/* Tracking Header */}
-        <p className="text-[11px] font-mono tracking-[0.3em] uppercase text-white/70 mb-3">
-          ESTRUTURA MOLECULAR 3D
-        </p>
-
-        {/* Sub-label */}
-        <p className="text-[10px] tracking-[0.2em] uppercase text-white/40 mb-6 font-mono">
-          ÁCIDO ASCÓRBICO • C₆H₈O₆ • 60 FPS
-        </p>
-
-        {/* Hairline Progress Bar */}
-        <div className="w-48 h-[1px] bg-white/10 relative overflow-hidden mb-3">
+        {/* Refined hairline line expanding under the wordmark */}
+        <div className="w-32 sm:w-44 h-[1px] bg-white/10 relative overflow-hidden mt-6 mb-4">
           <div
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-400/80 via-white to-amber-200 transition-all duration-150 ease-out"
-            style={{ width: `${Math.min(100, Math.max(0, progress))}%` }}
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-amber-400/80 via-white to-amber-200 transition-all duration-200 ease-out"
+            style={{ width: `${currentPercent}%` }}
           />
         </div>
 
-        {/* Percentage Display */}
-        <div className="flex items-center justify-between w-48 text-[10px] font-mono text-white/40">
-          <span>0%</span>
-          <span className="text-white/80 font-medium">{Math.round(progress)}%</span>
-          <span>100%</span>
-        </div>
+        {/* Subtle status caption */}
+        <p className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30">
+          {currentPercent < 100 ? "Carregando Estruturas" : "Inicializado"}
+        </p>
       </div>
     </div>
   );

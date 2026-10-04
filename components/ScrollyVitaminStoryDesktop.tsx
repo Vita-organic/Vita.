@@ -244,7 +244,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
                   </span>
                   <ChemicalSkeletalSvg
                     type={vitamin.chemicalSvgType}
-                    className="w-full h-auto max-h-[18vh]"
+                    className="w-full h-auto max-h-[20vh]"
                   />
                 </div>
               </div>

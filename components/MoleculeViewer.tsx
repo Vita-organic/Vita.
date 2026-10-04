@@ -69,6 +69,14 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
   const rotationVelocityRef = useRef<{ x: number; y: number }>({ x: 0, y: 0.0035 });
   const userRotationRef = useRef<{ x: number; y: number }>({ x: 0.2, y: 0.4 });
 
+  // Dynamically update camera position without rebuilding WebGL scene
+  useEffect(() => {
+    if (cameraRef.current) {
+      cameraRef.current.position.z =
+        baseCameraDistRef.current * cameraDistanceMultiplier * zoomLevel;
+    }
+  }, [cameraDistanceMultiplier, zoomLevel]);
+
   // Update external GSAP rotations if provided
   useEffect(() => {
     if (!moleculeGroupRef.current) return;
@@ -227,7 +235,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
     });
     const calculatedDist = Math.max(11, maxDist * 2.2);
     baseCameraDistRef.current = calculatedDist;
-    camera.position.z = calculatedDist * cameraDistanceMultiplier * zoomLevel;
+    camera.position.z = calculatedDist;
 
     // 6. Animation Loop with Visibility Gating
     let isRunning = false;
