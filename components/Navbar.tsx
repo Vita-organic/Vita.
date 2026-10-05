@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const NAV_ITEMS = [
   { id: "hero", label: "Início" },
@@ -9,16 +9,28 @@ const NAV_ITEMS = [
   { id: "lipossoluveis-capitulo", label: "Lipossolúveis" },
   { id: "hidrossoluveis-transicao", label: "Hidrossolúveis" },
   { id: "estudio-3d", label: "Lab 3D" },
+  { id: "mapa-mental", label: "Mapa Mental" },
   { id: "autores", label: "Autores" },
 ];
 
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeId, setActiveId] = useState("hero");
+  const isManualScrollRef = useRef(false);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Rola suavemente até a seção com compensação da altura da barra
   const scrollTo = (id: string) => {
     setIsOpen(false);
+    setActiveId(id);
+
+    // Bloqueia a sobreposição pelo evento de scroll durante a animação de rolagem
+    isManualScrollRef.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isManualScrollRef.current = false;
+    }, 1000);
+
     if (id === "hero") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
@@ -30,15 +42,17 @@ export const Navbar: React.FC = () => {
     }
   };
 
-  // Identifica a seção ativa de acordo com o scroll
+  // Identifica a seção ativa de acordo com o scroll do usuário
   useEffect(() => {
     const handleScroll = () => {
+      if (isManualScrollRef.current) return;
+
       const scrollY = window.scrollY;
       if (scrollY < 200) {
         setActiveId("hero");
         return;
       }
-      const scrollPos = scrollY + window.innerHeight * 0.35;
+      const scrollPos = scrollY + window.innerHeight * 0.45;
       for (let i = NAV_ITEMS.length - 1; i >= 0; i--) {
         const el = document.getElementById(NAV_ITEMS[i].id);
         if (el) {
@@ -52,7 +66,10 @@ export const Navbar: React.FC = () => {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, []);
 
   return (

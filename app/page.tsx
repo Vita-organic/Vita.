@@ -8,6 +8,7 @@ import { ScrollyClassificationFork } from "@/components/ScrollyClassificationFor
 import { ScrollyChapterIntro } from "@/components/ScrollyChapterIntro";
 import { ScrollyVitaminStory } from "@/components/ScrollyVitaminStory";
 import { MolecularLaboratoryStudio } from "@/components/MolecularLaboratoryStudio";
+import { MindMapStudio } from "@/components/MindMapStudio";
 import { EditorialClosingCta } from "@/components/EditorialClosingCta";
 import { VITAMINS_DATA, VitaminData } from "@/data/vitamins";
 
@@ -92,7 +93,12 @@ export default function Home() {
       />
 
       {/* ========================================================
-          07. CRONOLOGIA & AUTORES
+          07. MAPA MENTAL INTERATIVO E EDITÁVEL
+          ======================================================== */}
+      <MindMapStudio />
+
+      {/* ========================================================
+          08. CRONOLOGIA & AUTORES
           ======================================================== */}
       <EditorialClosingCta />
 

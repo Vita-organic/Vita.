@@ -209,3 +209,53 @@ body {
 .animate-scroll-line {
   animation: scrollLinePulse 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
+
+/* ==========================================================================
+   React Flow Dark Mode Controls Override
+   ========================================================================== */
+.react-flow__controls {
+  background-color: #0c0a09 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  padding: 2px !important;
+}
+
+.react-flow__controls-button {
+  background-color: #0c0a09 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #f5efe6 !important;
+  fill: #f5efe6 !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 2px !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+}
+
+.react-flow__controls-button:hover {
+  background-color: rgba(232, 168, 48, 0.2) !important;
+  color: #e8a830 !important;
+}
+
+.react-flow__controls-button svg {
+  fill: #f5efe6 !important;
+  stroke: #f5efe6 !important;
+  width: 14px !important;
+  height: 14px !important;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.react-flow__controls-button:hover svg {
+  fill: #e8a830 !important;
+  stroke: #e8a830 !important;
+}
