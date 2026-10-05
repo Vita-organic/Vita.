@@ -593,7 +593,7 @@ export function MindMapStudio() {
 
       {/* Header Section */}
       <div className="max-w-6xl mx-auto text-center mb-8 sm:mb-10 relative z-10">
-        <span className="eyebrow-scientific text-[#e8a830] mb-2 sm:mb-3 inline-block">
+        <span className="eyebrow-scientific text-white/50 mb-2 sm:mb-3 inline-block">
           06 · NAVEGAÇÃO CONCEITUAL & MAPA INTERATIVO
         </span>
         <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight">

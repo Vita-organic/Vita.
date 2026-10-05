@@ -38,11 +38,11 @@ const TIMELINE_EVENTS = [
 
 const AUTHORS = [
   "Lucas da Silva Lemos - Dev",
-  "Pedro Arthur Batista Carvalho",
-  "João Bernardo de Araujo Resende",
-  "Orlando Olegario Favaro",
-  "Caua Paiva de Almeida",
-  "Rakel Marques Leite",
+  "Pedro Arthur Batista Carvalho - Dev",
+  "João Bernardo de Araujo Resende - Pesquisa",
+  "Orlando Olegario Favaro - Pesquisa",
+  "Caua Paiva de Almeida - [...] ",
+  "Rakel Marques Leite - [...] ",
 ];
 
 export const EditorialClosingCta: React.FC = () => {
@@ -89,7 +89,7 @@ export const EditorialClosingCta: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 sm:mb-14">
             <span className="text-xs sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/50 mb-2 sm:mb-3 block font-medium">
-              07 · MARCOS HISTÓRICOS
+              MARCOS HISTÓRICOS
             </span>
             <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
               Evolução da Ciência das Vitaminas
@@ -125,7 +125,7 @@ export const EditorialClosingCta: React.FC = () => {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14 pb-5 sm:pb-6 border-b border-white/[0.06]">
             <div>
               <span className="text-xs sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/50 mb-2 sm:mb-3 block font-medium">
-                08 · DITOS ACADÊMICOS
+                07 · CRÉDITOS ACADÊMICOS
               </span>
               <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
                 Autores da Pesquisa
