@@ -88,8 +88,8 @@ export const EditorialClosingCta: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto">
           <div className="mb-10 sm:mb-14">
-            <span className="text-[11px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-2 sm:mb-3 block">
-              MARCOS HISTÓRICOS
+            <span className="text-xs sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/50 mb-2 sm:mb-3 block font-medium">
+              07 · MARCOS HISTÓRICOS
             </span>
             <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
               Evolução da Ciência das Vitaminas
@@ -102,10 +102,10 @@ export const EditorialClosingCta: React.FC = () => {
                 <span className="font-editorial text-2xl sm:text-3xl lg:text-4xl font-light text-[#e8a830]">
                   {event.year}
                 </span>
-                <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-white/70">
+                <span className="text-xs sm:text-xs font-mono uppercase tracking-widest text-white/70">
                   {event.label}
                 </span>
-                <p className="text-xs sm:text-sm text-white/50 font-sans font-light leading-relaxed">
+                <p className="text-sm sm:text-sm text-white/60 font-sans font-light leading-relaxed">
                   {event.desc}
                 </p>
               </div>
@@ -124,15 +124,15 @@ export const EditorialClosingCta: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14 pb-5 sm:pb-6 border-b border-white/[0.06]">
             <div>
-              <span className="text-[11px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-2 sm:mb-3 block">
-                CRÉDITOS ACADÊMICOS
+              <span className="text-xs sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/50 mb-2 sm:mb-3 block font-medium">
+                08 · DITOS ACADÊMICOS
               </span>
               <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
                 Autores da Pesquisa
               </h3>
             </div>
 
-            <p className="text-[11px] sm:text-xs font-mono text-white/40 uppercase tracking-widest">
+            <p className="text-xs sm:text-xs font-mono text-white/50 uppercase tracking-widest">
               TRABALHO DE QUÍMICA ORGÂNICA &middot; 2026
             </p>
           </div>
@@ -143,11 +143,11 @@ export const EditorialClosingCta: React.FC = () => {
           >
             {AUTHORS.map((author, idx) => (
               <div key={idx} className="flex items-baseline space-x-3 sm:space-x-4 pb-3 sm:pb-4 border-b border-white/[0.04]">
-                <span className="font-mono text-xs text-[#e8a830]/80">
+                <span className="font-mono text-sm text-[#e8a830]/80">
                   0{idx + 1}
                 </span>
                 <div>
-                  <h4 className="font-sans text-sm sm:text-base lg:text-lg text-white font-normal leading-snug">
+                  <h4 className="font-sans text-base sm:text-base lg:text-lg text-white font-normal leading-snug">
                     {author}
                   </h4>
                 </div>

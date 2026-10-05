@@ -34,7 +34,7 @@ export const MolecularLaboratoryStudio: React.FC<MolecularLaboratoryStudioProps>
       <div className="max-w-7xl mx-auto w-full mb-8 sm:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 pb-6 sm:pb-8 border-b border-white/[0.06]">
         <div>
           <span className="eyebrow-scientific text-white/40 mb-2 sm:mb-3">
-            ARQUIVO COMPARATIVO
+            05 · ARQUIVO COMPARATIVO
           </span>
           <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-light text-white uppercase tracking-tight">
             Laboratório Molecular
@@ -55,9 +55,9 @@ export const MolecularLaboratoryStudio: React.FC<MolecularLaboratoryStudioProps>
               <button
                 key={v.id}
                 onClick={() => handleSelect(v)}
-                className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase transition-all duration-300 cursor-pointer whitespace-nowrap ${isSelected
-                    ? "bg-white text-black font-semibold shadow-lg"
-                    : "text-white/40 hover:text-white hover:bg-white/[0.04] border border-white/10"
+                className={`px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase transition-all duration-300 cursor-pointer whitespace-nowrap ${isSelected
+                  ? "bg-white text-black font-semibold shadow-lg"
+                  : "text-white/40 hover:text-white hover:bg-white/[0.04] border border-white/10"
                   }`}
               >
                 VITAMINA {v.letter}
@@ -73,7 +73,7 @@ export const MolecularLaboratoryStudio: React.FC<MolecularLaboratoryStudioProps>
         <div className="lg:col-span-5 xl:col-span-4 flex flex-col space-y-4 sm:space-y-6 order-2 lg:order-1">
           <div>
             <span
-              className="text-[11px] sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase block mb-1"
+              className="text-xs sm:text-xs font-mono tracking-[0.2em] sm:tracking-[0.3em] uppercase block mb-1"
               style={{ color: accentColor }}
             >
               {active.classification.toUpperCase()} &middot; {active.number}
@@ -81,7 +81,7 @@ export const MolecularLaboratoryStudio: React.FC<MolecularLaboratoryStudioProps>
             <h3 className="font-editorial text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl font-light text-white uppercase tracking-tight">
               {active.name}
             </h3>
-            <p className="font-serif italic text-base sm:text-lg md:text-xl text-white/60 font-light mt-1">
+            <p className="font-serif italic text-lg sm:text-lg md:text-xl text-white/70 font-light mt-1">
               {active.chemicalName}
             </p>
           </div>

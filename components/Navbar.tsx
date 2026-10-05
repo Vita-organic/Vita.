@@ -91,7 +91,7 @@ export const Navbar: React.FC = () => {
           <div className="h-3.5 w-px bg-white/15 mr-0.5 lg:mr-1" />
 
           {/* Links de navegação */}
-          <div className="flex items-center gap-0.5 lg:gap-1 text-[10px] lg:text-[11px] font-mono tracking-wider">
+          <div className="flex items-center gap-0.5 lg:gap-1 text-[11px] lg:text-xs font-mono tracking-wider">
             {NAV_ITEMS.map((item) => {
               const isActive = activeId === item.id;
               return (
@@ -166,7 +166,7 @@ export const Navbar: React.FC = () => {
                     <button
                       key={item.id}
                       onClick={() => scrollTo(item.id)}
-                      className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-xs font-mono uppercase tracking-wider text-left transition-colors duration-200 cursor-pointer ${
+                      className={`flex items-center justify-between w-full px-3.5 py-2.5 rounded-lg text-sm font-mono uppercase tracking-wider text-left transition-colors duration-200 cursor-pointer ${
                         isActive
                           ? "bg-white/10 text-white font-medium"
                           : "text-white/60 hover:text-white hover:bg-white/5 active:bg-white/10"

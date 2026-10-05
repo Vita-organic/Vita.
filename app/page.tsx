@@ -43,7 +43,7 @@ export default function Home() {
           ======================================================== */}
       <ScrollyChapterIntro
         id="lipossoluveis-capitulo"
-        part="PARTE I · COMPOSTOS LIPOFÍLICOS"
+        part="03 · COMPOSTOS LIPOFÍLICOS"
         title="Lipossolúveis"
         subtitle="Vitamina A · Vitamina D · Vitamina E · Vitamina K"
         description="Absorvidas em conjunto com as gorduras dietéticas e armazenadas nas reservas celulares do fígado e tecido adiposo. A seguir, explore cada molécula em sua integridade anatômica tridimensional."
@@ -66,7 +66,7 @@ export default function Home() {
           ======================================================== */}
       <ScrollyChapterIntro
         id="hidrossoluveis-transicao"
-        part="PARTE II · O FLUXO AQUOSO"
+        part="04 · O FLUXO AQUOSO"
         title="Hidrossolúveis"
         subtitle="Complexo B · Vitamina C"
         description="Moléculas polares que permeiam as correntes aquosas do sangue e do citoplasma celular. Não formam depósitos estáveis: são utilizadas metabolicamente e o excedente é excretado pelos rins, exigindo suprimento constante."

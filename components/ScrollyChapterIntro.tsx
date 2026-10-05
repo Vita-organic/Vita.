@@ -85,13 +85,13 @@ export const ScrollyChapterIntro: React.FC<ScrollyChapterIntroProps> = ({
         </h2>
 
         <div
-          className="font-editorial text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-light tracking-widest mb-6 sm:mb-8"
+          className="font-editorial text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-light tracking-widest mb-6 sm:mb-8"
           style={{ color: `${accentColor}e6` }}
         >
           {subtitle}
         </div>
 
-        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/65 font-sans font-light leading-relaxed max-w-2xl">
+        <p className="text-base sm:text-base md:text-lg lg:text-xl text-white/70 font-sans font-light leading-relaxed max-w-2xl">
           {description}
         </p>
       </div>

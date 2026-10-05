@@ -93,7 +93,7 @@ export const ScrollyClassificationFork: React.FC = () => {
               se dissolvem no corpo?
             </span>
           </h2>
-          <p className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-white/60 font-sans font-light max-w-2xl mx-auto">
+          <p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-white/70 font-sans font-light max-w-2xl mx-auto">
             A solubilidade química dita como cada vitamina é digerida, transportada no sangue, armazenada ou eliminada pelo organismo.
           </p>
         </div>
@@ -116,7 +116,7 @@ export const ScrollyClassificationFork: React.FC = () => {
               A &middot; D &middot; E &middot; K
             </div>
 
-            <p className="text-sm sm:text-base lg:text-base xl:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
+            <p className="text-base sm:text-base lg:text-base xl:text-lg text-white/75 font-sans font-light leading-relaxed max-w-lg">
               Solúveis em lipídios e gorduras corporais. Requerem ácidos biliares para digestão e são estocadas por longos períodos no <span className="text-white font-normal">tecido adiposo e no fígado</span>, evitando deficiências imediatas mas exigindo cautela contra hipervitaminoses.
             </p>
           </div>
@@ -124,7 +124,7 @@ export const ScrollyClassificationFork: React.FC = () => {
           {/* Group 2: Hidrossolúveis */}
           <div ref={hidroColRef} className="flex flex-col space-y-4 sm:space-y-6">
             <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-[0.25em] sm:tracking-[0.3em] text-[#52a5ff]">
-              <span>GRUPO II &middot; 5 COMPOSTOS</span>
+              <span>GRUPO II &middot; 5 COMPOSTOS (9 COMPOSTOS)</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#52a5ff]" />
             </div>
 
@@ -137,7 +137,7 @@ export const ScrollyClassificationFork: React.FC = () => {
               Complexo B &middot; Vitamina C
             </div>
 
-            <p className="text-sm sm:text-base lg:text-base xl:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
+            <p className="text-base sm:text-base lg:text-base xl:text-lg text-white/75 font-sans font-light leading-relaxed max-w-lg">
               Solúveis em água celular e fluidos circulatórios. Não criam reservatórios duradouros e o excesso é <span className="text-white font-normal">continuamente eliminado através da urina</span>, exigindo ingestão constante e renovação diária na dieta.
             </p>
           </div>

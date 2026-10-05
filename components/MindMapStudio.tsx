@@ -28,20 +28,19 @@ import { VITAMINS_DATA } from "@/data/vitamins";
 function MindMapRootNode({ data, selected }: { data: { label: string; description?: string }; selected?: boolean }) {
   return (
     <div
-      className={`px-6 py-4 rounded-2xl bg-[#0c0a09]/90 border backdrop-blur-md transition-all duration-300 shadow-2xl text-center min-w-[240px] ${
-        selected ? "border-[#e8a830] ring-2 ring-[#e8a830]/30 shadow-[#e8a830]/20" : "border-[#e8a830]/40 shadow-black/80"
-      }`}
+      className={`px-6 py-4 rounded-2xl bg-[#0c0a09]/90 border backdrop-blur-md transition-all duration-300 shadow-2xl text-center min-w-[240px] ${selected ? "border-[#e8a830] ring-2 ring-[#e8a830]/30 shadow-[#e8a830]/20" : "border-[#e8a830]/40 shadow-black/80"
+        }`}
     >
       <Handle type="target" position={Position.Left} className="!bg-[#e8a830] !w-3 !h-3 !border-2 !border-[#060504]" />
       <Handle type="source" position={Position.Right} className="!bg-[#e8a830] !w-3 !h-3 !border-2 !border-[#060504]" />
       <Handle type="target" position={Position.Top} className="!bg-[#e8a830] !w-3 !h-3 !border-2 !border-[#060504]" />
       <Handle type="source" position={Position.Bottom} className="!bg-[#e8a830] !w-3 !h-3 !border-2 !border-[#060504]" />
 
-      <span className="inline-block px-2.5 py-0.5 mb-1.5 rounded-full text-[10px] font-mono tracking-widest bg-[#e8a830]/15 text-[#e8a830] border border-[#e8a830]/30 uppercase">
+      <span className="inline-block px-2.5 py-0.5 mb-1.5 rounded-full text-xs font-mono tracking-wider bg-[#e8a830]/15 text-[#e8a830] border border-[#e8a830]/30 uppercase">
         Nó Principal
       </span>
       <h3 className="font-editorial text-2xl font-light text-white tracking-wide">{data.label}</h3>
-      {data.description && <p className="text-xs text-white/50 font-sans mt-0.5 leading-relaxed">{data.description}</p>}
+      {data.description && <p className="text-xs sm:text-sm text-white/60 font-sans mt-0.5 leading-relaxed">{data.description}</p>}
     </div>
   );
 }
@@ -59,9 +58,8 @@ function MindMapCategoryNode({
 
   return (
     <div
-      className={`px-5 py-3.5 rounded-xl bg-[#0f0d0a]/90 border backdrop-blur-md transition-all duration-300 shadow-xl min-w-[210px] ${
-        selected ? "ring-2" : ""
-      }`}
+      className={`px-5 py-3.5 rounded-xl bg-[#0f0d0a]/90 border backdrop-blur-md transition-all duration-300 shadow-xl min-w-[210px] ${selected ? "ring-2" : ""
+        }`}
       style={{
         borderColor: `${accentColor}50`,
         boxShadow: selected ? `0 0 20px ${accentColor}40` : `0 10px 25px rgba(0,0,0,0.5)`,
@@ -74,7 +72,7 @@ function MindMapCategoryNode({
 
       <div className="flex items-center justify-between gap-2 mb-1">
         <span
-          className="text-[10px] font-mono tracking-wider px-2 py-0.5 rounded-md uppercase font-semibold"
+          className="text-xs font-mono tracking-wider px-2 py-0.5 rounded-md uppercase font-semibold"
           style={{ backgroundColor: `${accentColor}20`, color: accentColor, border: `1px solid ${accentColor}40` }}
         >
           {data.count}
@@ -83,7 +81,7 @@ function MindMapCategoryNode({
       </div>
 
       <h4 className="font-editorial text-xl font-light text-white">{data.label}</h4>
-      {data.description && <p className="text-[11px] text-white/50 font-sans mt-0.5 leading-tight">{data.description}</p>}
+      {data.description && <p className="text-xs text-white/60 font-sans mt-0.5 leading-tight">{data.description}</p>}
     </div>
   );
 }
@@ -111,9 +109,8 @@ function MindMapVitaminNode({
 
   return (
     <div
-      className={`px-4 py-3 rounded-xl bg-[#0c0b0a]/90 border backdrop-blur-md transition-all duration-200 min-w-[190px] max-w-[220px] ${
-        selected ? "ring-2" : ""
-      }`}
+      className={`px-4 py-3 rounded-xl bg-[#0c0b0a]/90 border backdrop-blur-md transition-all duration-200 min-w-[190px] max-w-[220px] ${selected ? "ring-2" : ""
+        }`}
       style={{
         borderColor: selected ? glowColor : `${glowColor}35`,
         boxShadow: selected ? `0 0 16px ${glowColor}35` : "0 4px 15px rgba(0,0,0,0.4)",
@@ -131,14 +128,14 @@ function MindMapVitaminNode({
         >
           {data.letter}
         </span>
-        <span className="font-mono text-[11px] text-white/60 truncate">{data.formula}</span>
+        <span className="font-mono text-xs text-white/65 truncate">{data.formula}</span>
       </div>
 
       <div className="font-editorial text-lg text-white font-medium leading-tight">{data.label}</div>
-      <div className="text-[10px] text-[#e8a830]/80 font-mono tracking-wide">{data.chemicalName}</div>
+      <div className="text-xs text-[#e8a830]/90 font-mono tracking-wide">{data.chemicalName}</div>
 
       {summaryText && (
-        <p className="text-[10px] text-white/50 font-sans mt-1.5 line-clamp-3 border-t border-white/5 pt-1 leading-tight">
+        <p className="text-xs text-white/60 font-sans mt-1.5 line-clamp-3 border-t border-white/5 pt-1 leading-tight">
           {summaryText}
         </p>
       )}
@@ -165,21 +162,20 @@ function MindMapDetailNode({
 
   return (
     <div
-      className={`px-3 py-2 rounded-lg bg-[#080706]/95 border ${style.border} backdrop-blur-sm max-w-[190px] text-left transition-all ${
-        selected ? "ring-1 ring-white/40 scale-105" : ""
-      }`}
+      className={`px-3 py-2 rounded-lg bg-[#080706]/95 border ${style.border} backdrop-blur-sm max-w-[200px] text-left transition-all ${selected ? "ring-1 ring-white/40 scale-105" : ""
+        }`}
     >
       <Handle type="target" position={Position.Left} className="!bg-white/40 !w-2 !h-2" />
       <Handle type="source" position={Position.Right} className="!bg-white/40 !w-2 !h-2" />
       <Handle type="target" position={Position.Top} className="!bg-white/40 !w-2 !h-2" />
       <Handle type="source" position={Position.Bottom} className="!bg-white/40 !w-2 !h-2" />
 
-      <span className={`text-[9px] font-mono uppercase px-1.5 py-0.2 rounded ${style.bg} ${style.text} tracking-wider`}>
+      <span className={`text-xs font-mono uppercase px-2 py-0.5 rounded ${style.bg} ${style.text} tracking-wider`}>
         {style.tag}
       </span>
-      <p className="text-[11px] text-white/90 font-sans mt-1 leading-snug font-medium">{data.label}</p>
+      <p className="text-xs sm:text-sm text-white/90 font-sans mt-1 leading-snug font-medium">{data.label}</p>
       {data.description && (
-        <p className="text-[10px] text-white/50 font-sans mt-1 border-t border-white/5 pt-0.5 leading-tight">
+        <p className="text-xs text-white/60 font-sans mt-1 border-t border-white/5 pt-0.5 leading-tight">
           {data.description}
         </p>
       )}
@@ -598,31 +594,14 @@ export function MindMapStudio() {
       {/* Header Section */}
       <div className="max-w-6xl mx-auto text-center mb-8 sm:mb-10 relative z-10">
         <span className="eyebrow-scientific text-[#e8a830] mb-2 sm:mb-3 inline-block">
-          06. NAVEGAÇÃO CONCEITUAL & MAPA INTERATIVO
+          06 · NAVEGAÇÃO CONCEITUAL & MAPA INTERATIVO
         </span>
         <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight">
           Mapa Mental de Vitaminas
         </h2>
-        <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base text-white/60 font-sans max-w-2xl mx-auto font-light leading-relaxed">
-          Explore as ramificações metabólicas, reconecte moléculas, altere títulos/descrições ou adicione novas anotações diretamente no mapa mental interativo abaixo.
-        </p>
 
         {/* Quick Toolbar */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 sm:mt-6 text-[11px] sm:text-xs font-mono">
-          <button
-            onClick={toggleFullscreen}
-            className="px-3 sm:px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-[#e8a830]/20 hover:border-[#e8a830]/50 text-white transition-all flex items-center gap-1.5 cursor-pointer"
-          >
-            <svg className="w-3.5 h-3.5 text-[#e8a830]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {isFullscreen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9L4 4m0 0l5 0M4 4v5m6 6l5 5m0 0h-5m5 0v-5" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-              )}
-            </svg>
-            {isFullscreen ? "Sair da Tela Cheia" : "Modo Tela Cheia"}
-          </button>
-
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 sm:mt-6 text-xs sm:text-xs font-mono">
           <button
             onClick={handleResetMap}
             className="px-3 sm:px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 text-white transition-all flex items-center gap-1.5 cursor-pointer"
@@ -632,10 +611,6 @@ export function MindMapStudio() {
             </svg>
             Restaurar Estrutura Original
           </button>
-
-          <div className="px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 text-[10px] sm:text-xs">
-            💡 Dica: Selecione qualquer nó para alterar o título e a descrição
-          </div>
         </div>
       </div>
 
@@ -647,11 +622,10 @@ export function MindMapStudio() {
           height: isFullscreen ? "100vh" : undefined,
           minHeight: "460px",
         }}
-        className={`w-full relative overflow-hidden bg-[#070605] ${
-          isFullscreen
-            ? "fixed inset-0 z-50 rounded-none border-none h-screen"
-            : "max-w-7xl mx-auto rounded-xl sm:rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl h-[520px] sm:h-[600px] lg:h-[680px]"
-        }`}
+        className={`w-full relative overflow-hidden bg-[#070605] ${isFullscreen
+          ? "fixed inset-0 z-50 rounded-none border-none h-screen"
+          : "max-w-7xl mx-auto rounded-xl sm:rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl h-[520px] sm:h-[600px] lg:h-[680px]"
+          }`}
       >
         {!isReady && (
           <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-white/40">
@@ -677,156 +651,156 @@ export function MindMapStudio() {
             className="bg-[#070605]"
             style={{ width: "100%", height: "100%" }}
           >
-          {/* Subtle Grid Dots */}
-          <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#ffffff15" />
+            {/* Subtle Grid Dots */}
+            <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#ffffff15" />
 
-          {/* Minimal Controls Bar */}
-          <Controls showInteractive={false} />
+            {/* Minimal Controls Bar */}
+            <Controls showInteractive={false} />
 
-          {/* Dark MiniMap */}
-          <MiniMap
-            nodeColor={(node) => {
-              if (node.type === "rootNode") return "#e8a830";
-              if (node.type === "categoryNode") return node.data?.category === "lipo" ? "#e8a830" : "#38bdf8";
-              if (node.type === "vitaminNode") return (node.data?.accentColor as string) || "#38bdf8";
-              return "#a855f7";
-            }}
-            maskColor="rgba(6, 5, 4, 0.85)"
-            className="!bg-[#090807] !border !border-white/10 !rounded-xl overflow-hidden shadow-2xl"
-          />
+            {/* Dark MiniMap */}
+            <MiniMap
+              nodeColor={(node) => {
+                if (node.type === "rootNode") return "#e8a830";
+                if (node.type === "categoryNode") return node.data?.category === "lipo" ? "#e8a830" : "#38bdf8";
+                if (node.type === "vitaminNode") return (node.data?.accentColor as string) || "#38bdf8";
+                return "#a855f7";
+              }}
+              maskColor="rgba(6, 5, 4, 0.85)"
+              className="!bg-[#090807] !border !border-white/10 !rounded-xl overflow-hidden shadow-2xl"
+            />
 
-          {/* Top-Left Floating Controls: Fullscreen Toggle */}
-          <Panel position="top-left" className="m-4">
-            <button
-              onClick={toggleFullscreen}
-              className="px-3.5 py-2 rounded-xl border border-white/15 bg-[#0c0a09]/90 hover:bg-[#e8a830]/20 hover:border-[#e8a830]/50 text-white text-xs font-mono backdrop-blur-md shadow-2xl flex items-center gap-2 transition-all"
-              title={isFullscreen ? "Sair da Tela Cheia (ESC)" : "Expandir em Tela Cheia"}
-            >
-              <svg className="w-4 h-4 text-[#e8a830]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                {isFullscreen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9L4 4m0 0l5 0M4 4v5m6 6l5 5m0 0h-5m5 0v-5" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                )}
-              </svg>
-              <span>{isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}</span>
-            </button>
-          </Panel>
+            {/* Top-Left Floating Controls: Fullscreen Toggle */}
+            <Panel position="top-left" className="m-4">
+              <button
+                onClick={toggleFullscreen}
+                className="px-3.5 py-2 rounded-xl border border-white/15 bg-[#0c0a09]/90 hover:bg-[#e8a830]/20 hover:border-[#e8a830]/50 text-white text-xs font-mono backdrop-blur-md shadow-2xl flex items-center gap-2 transition-all"
+                title={isFullscreen ? "Sair da Tela Cheia (ESC)" : "Expandir em Tela Cheia"}
+              >
+                <svg className="w-4 h-4 text-[#e8a830]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  {isFullscreen ? (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9L4 4m0 0l5 0M4 4v5m6 6l5 5m0 0h-5m5 0v-5" />
+                  ) : (
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                  )}
+                </svg>
+                <span>{isFullscreen ? "Sair da Tela Cheia" : "Tela Cheia"}</span>
+              </button>
+            </Panel>
 
-          {/* Floating Edit & Inspector Panel */}
-          {selectedNode && (
-            <Panel position="top-right" className="m-2 sm:m-4 max-w-[calc(100vw-2rem)]">
-              <div className="w-72 sm:w-80 bg-[#0e0c0a]/95 border border-[#e8a830]/40 rounded-xl p-3 sm:p-4 shadow-2xl backdrop-blur-xl font-sans text-white text-xs space-y-3 animate-in fade-in slide-in-from-right-4 duration-200">
-                <div className="flex items-center justify-between border-b border-white/10 pb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#e8a830] animate-pulse" />
-                    <span className="font-mono text-[11px] text-[#e8a830] uppercase tracking-wider">
-                      Painel de Edição do Nó
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => setSelectedNodeId(null)}
-                    className="text-white/40 hover:text-white transition-colors"
-                  >
-                    ✕
-                  </button>
-                </div>
-
-                {/* Edit Title */}
-                <div>
-                  <label className="block text-[10px] font-mono text-white/50 mb-1 uppercase">
-                    Título / Nome do Nó:
-                  </label>
-                  <input
-                    type="text"
-                    value={editLabel}
-                    onChange={(e) => setEditLabel(e.target.value)}
-                    className="w-full bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830]"
-                    placeholder="Nome do nó..."
-                  />
-                </div>
-
-                {/* Edit Description */}
-                <div>
-                  <label className="block text-[10px] font-mono text-white/50 mb-1 uppercase">
-                    Descrição / Detalhes:
-                  </label>
-                  <textarea
-                    rows={2}
-                    value={editDescription}
-                    onChange={(e) => setEditDescription(e.target.value)}
-                    className="w-full bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830] resize-none leading-relaxed"
-                    placeholder="Escreva uma breve descrição..."
-                  />
-                </div>
-
-                <div className="flex justify-end pt-0.5">
-                  <button
-                    onClick={handleSaveNodeDetails}
-                    className="w-full py-1.5 bg-[#e8a830] text-[#060504] font-medium font-mono text-xs rounded-lg hover:bg-[#f0b542] transition-colors flex items-center justify-center gap-1"
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    Salvar Alterações
-                  </button>
-                </div>
-
-                {/* Add Child Node */}
-                <div className="border-t border-white/10 pt-3">
-                  <label className="block text-[10px] font-mono text-white/50 mb-1 uppercase">
-                    Adicionar Sub-Nó Conectado:
-                  </label>
-                  <div className="space-y-2">
-                    <select
-                      value={newNodeType}
-                      onChange={(e) => setNewNodeType(e.target.value as any)}
-                      className="w-full bg-[#060504] border border-white/20 rounded-lg px-2 py-1 text-xs text-white/80 focus:outline-none focus:border-[#e8a830]"
-                    >
-                      <option value="func">Função Biológica (Verde)</option>
-                      <option value="source">Fonte Alimentar (Laranja)</option>
-                      <option value="symp">Sintoma / Avitaminose (Vermelho)</option>
-                      <option value="custom">Nota Personalizada (Roxo)</option>
-                    </select>
-
-                    <div className="flex gap-2">
-                      <input
-                        type="text"
-                        placeholder="Ex: Fortalece esmalte dentário"
-                        value={newNodeText}
-                        onChange={(e) => setNewNodeText(e.target.value)}
-                        className="flex-1 bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830]"
-                      />
-                      <button
-                        onClick={handleAddChildNode}
-                        className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-mono rounded-lg transition-colors"
-                      >
-                        + Criar
-                      </button>
+            {/* Floating Edit & Inspector Panel */}
+            {selectedNode && (
+              <Panel position="top-right" className="m-2 sm:m-4 max-w-[calc(100vw-2rem)]">
+                <div className="w-72 sm:w-80 bg-[#0e0c0a]/95 border border-[#e8a830]/40 rounded-xl p-3 sm:p-4 shadow-2xl backdrop-blur-xl font-sans text-white text-xs space-y-3 animate-in fade-in slide-in-from-right-4 duration-200">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#e8a830] animate-pulse" />
+                      <span className="font-mono text-xs text-[#e8a830] uppercase tracking-wider">
+                        Painel de Edição do Nó
+                      </span>
                     </div>
-                  </div>
-                </div>
-
-                {/* Delete Node */}
-                {selectedNodeId !== "root" && (
-                  <div className="border-t border-white/10 pt-2 flex justify-end">
                     <button
-                      onClick={handleDeleteSelected}
-                      className="text-rose-400 hover:text-rose-300 font-mono text-[11px] flex items-center gap-1 hover:underline"
+                      onClick={() => setSelectedNodeId(null)}
+                      className="text-white/40 hover:text-white transition-colors"
                     >
-                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                      Remover este Nó
+                      ✕
                     </button>
                   </div>
-                )}
-              </div>
-            </Panel>
-          )}
-        </ReactFlow>
-      )}
-    </div>
+
+                  {/* Edit Title */}
+                  <div>
+                    <label className="block text-xs font-mono text-white/60 mb-1 uppercase">
+                      Título / Nome do Nó:
+                    </label>
+                    <input
+                      type="text"
+                      value={editLabel}
+                      onChange={(e) => setEditLabel(e.target.value)}
+                      className="w-full bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830]"
+                      placeholder="Nome do nó..."
+                    />
+                  </div>
+
+                  {/* Edit Description */}
+                  <div>
+                    <label className="block text-xs font-mono text-white/60 mb-1 uppercase">
+                      Descrição / Detalhes:
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={editDescription}
+                      onChange={(e) => setEditDescription(e.target.value)}
+                      className="w-full bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830] resize-none leading-relaxed"
+                      placeholder="Escreva uma breve descrição..."
+                    />
+                  </div>
+
+                  <div className="flex justify-end pt-0.5">
+                    <button
+                      onClick={handleSaveNodeDetails}
+                      className="w-full py-1.5 bg-[#e8a830] text-[#060504] font-medium font-mono text-xs rounded-lg hover:bg-[#f0b542] transition-colors flex items-center justify-center gap-1"
+                    >
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Salvar Alterações
+                    </button>
+                  </div>
+
+                  {/* Add Child Node */}
+                  <div className="border-t border-white/10 pt-3">
+                    <label className="block text-xs font-mono text-white/60 mb-1 uppercase">
+                      Adicionar Sub-Nó Conectado:
+                    </label>
+                    <div className="space-y-2">
+                      <select
+                        value={newNodeType}
+                        onChange={(e) => setNewNodeType(e.target.value as any)}
+                        className="w-full bg-[#060504] border border-white/20 rounded-lg px-2 py-1 text-xs text-white/80 focus:outline-none focus:border-[#e8a830]"
+                      >
+                        <option value="func">Função Biológica (Verde)</option>
+                        <option value="source">Fonte Alimentar (Laranja)</option>
+                        <option value="symp">Sintoma / Avitaminose (Vermelho)</option>
+                        <option value="custom">Nota Personalizada (Roxo)</option>
+                      </select>
+
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Ex: Fortalece esmalte dentário"
+                          value={newNodeText}
+                          onChange={(e) => setNewNodeText(e.target.value)}
+                          className="flex-1 bg-[#060504] border border-white/20 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-[#e8a830]"
+                        />
+                        <button
+                          onClick={handleAddChildNode}
+                          className="px-3 py-1.5 bg-white/10 hover:bg-white/20 text-white font-mono rounded-lg transition-colors"
+                        >
+                          + Criar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Delete Node */}
+                  {selectedNodeId !== "root" && (
+                    <div className="border-t border-white/10 pt-2 flex justify-end">
+                      <button
+                        onClick={handleDeleteSelected}
+                        className="text-rose-400 hover:text-rose-300 font-mono text-[11px] flex items-center gap-1 hover:underline"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Remover este Nó
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </Panel>
+            )}
+          </ReactFlow>
+        )}
+      </div>
     </section>
   );
 }

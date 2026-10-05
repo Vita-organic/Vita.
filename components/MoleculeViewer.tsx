@@ -419,7 +419,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
 
       {/* Discrete interaction hint when hovered or active */}
       {interactive && (
-        <div className="absolute bottom-3 right-4 pointer-events-none flex items-center space-x-2 text-[10px] font-mono tracking-widest text-white/30 uppercase">
+        <div className="absolute bottom-3 right-4 pointer-events-none flex items-center space-x-2 text-xs font-mono tracking-widest text-white/40 uppercase">
           <span>ARRASTE PARA GIRAR</span>
         </div>
       )}
@@ -429,7 +429,7 @@ export const MoleculeViewer: React.FC<MoleculeViewerProps> = ({
         <button
           onClick={handleResetOrientation}
           title="Recentralizar orientação"
-          className="absolute top-3 right-4 px-2 py-1 rounded text-[9px] font-mono uppercase tracking-widest text-white/40 hover:text-white/80 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition-colors pointer-events-auto"
+          className="absolute top-3 right-4 px-2.5 py-1 rounded text-xs font-mono uppercase tracking-wider text-white/50 hover:text-white/80 bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 transition-colors pointer-events-auto"
         >
           RESET 3D
         </button>

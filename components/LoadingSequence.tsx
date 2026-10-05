@@ -116,7 +116,7 @@ export const LoadingSequence: React.FC<LoadingSequenceProps> = ({
         </div>
 
         {/* Subtle status caption */}
-        <p className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/30">
+        <p className="text-xs font-mono tracking-[0.25em] uppercase text-white/50">
           {currentPercent < 100 ? "Carregando Estruturas" : "Inicializado"}
         </p>
       </div>
