@@ -75,30 +75,30 @@ export const Navbar: React.FC = () => {
   return (
     <>
       {/* ========================================================
-          DESKTOP (Barra flutuante horizontal centralizada)
+          DESKTOP & TABLET (Barra flutuante horizontal centralizada)
           ======================================================== */}
-      <div className="hidden md:flex fixed top-4 left-1/2 -translate-x-1/2 z-50">
-        <nav className="flex items-center gap-2 bg-[#0a0807]/85 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.7)] rounded-full px-4 py-1.5">
+      <div className="hidden md:flex fixed top-3 lg:top-4 left-1/2 -translate-x-1/2 z-50 max-w-[96vw]">
+        <nav className="flex items-center gap-1.5 lg:gap-2 bg-[#0a0807]/85 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.7)] rounded-full px-2.5 lg:px-4 py-1.5">
           {/* Título Vita */}
           <button
             onClick={() => scrollTo("hero")}
-            className="font-serif italic text-lg tracking-wide text-[#f5efe6] hover:text-white pr-2 focus:outline-none transition-colors cursor-pointer select-none"
+            className="font-serif italic text-base lg:text-lg tracking-wide text-[#f5efe6] hover:text-white pr-1.5 lg:pr-2 focus:outline-none transition-colors cursor-pointer select-none whitespace-nowrap"
           >
             Vita<span className="text-[#e8a830] not-italic">.</span>
           </button>
 
           {/* Divisor sutil */}
-          <div className="h-3.5 w-px bg-white/15 mr-1" />
+          <div className="h-3.5 w-px bg-white/15 mr-0.5 lg:mr-1" />
 
           {/* Links de navegação */}
-          <div className="flex items-center gap-1 text-[11px] font-mono tracking-wider">
+          <div className="flex items-center gap-0.5 lg:gap-1 text-[10px] lg:text-[11px] font-mono tracking-wider">
             {NAV_ITEMS.map((item) => {
               const isActive = activeId === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => scrollTo(item.id)}
-                  className={`px-3 py-1 rounded-full uppercase transition-all cursor-pointer ${
+                  className={`px-2 lg:px-3 py-1 rounded-full uppercase transition-all cursor-pointer whitespace-nowrap ${
                     isActive
                       ? "bg-white/15 text-white font-medium border border-white/15 shadow-sm"
                       : "text-white/55 hover:text-white hover:bg-white/5 border border-transparent"

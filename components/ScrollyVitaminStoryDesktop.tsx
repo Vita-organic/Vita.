@@ -192,9 +192,14 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             Starts at dead center (x = 0).
             On scroll, glides smoothly to +25vw or -25vw into its designated half.
             ==================================================================== */}
+        {/* ====================================================================
+            3D MOLECULE THEATER
+            Starts at dead center (x = 0).
+            On scroll, glides smoothly to +25vw or -25vw into its designated half.
+            ==================================================================== */}
         <div
           ref={moleculeColRef}
-          className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[560px] h-[560px] flex items-center justify-center pointer-events-auto"
+          className="absolute z-10 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] md:w-[400px] md:h-[400px] lg:w-[460px] lg:h-[460px] xl:w-[540px] xl:h-[540px] flex items-center justify-center pointer-events-auto"
         >
           {isNearViewport ? (
             <MoleculeViewer vitamin={vitamin} />
@@ -207,28 +212,28 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             EDITORIAL TEXT COLUMN (100% Symmetrical on both Left and Right)
             If isAltLayout: Placed on Right half (left-1/2 w-1/2)
             If not:         Placed on Left half  (left-0 w-1/2)
-            Both sides use identical padding (px-16 lg:px-24) and max-w-xl!
+            Both sides use identical padding and max-w-xl!
             ==================================================================== */}
         <div
-          className={`absolute top-0 bottom-0 w-1/2 z-20 flex items-center justify-center px-12 lg:px-20 xl:px-24 ${isAltLayout ? "right-0" : "left-0"
+          className={`absolute top-0 bottom-0 w-1/2 z-20 flex items-center justify-center px-6 sm:px-8 lg:px-12 xl:px-20 ${isAltLayout ? "right-0" : "left-0"
             }`}
         >
           <div className="w-full max-w-xl relative flex flex-col justify-center text-left">
             {/* BEAT 1: GRUPOS FUNCIONAIS + MODELO 2D */}
             <div
               ref={beatGroupRef}
-              className="w-full flex flex-col space-y-4 opacity-0 pointer-events-none"
+              className="w-full flex flex-col space-y-3 lg:space-y-4 opacity-0 pointer-events-none"
             >
-              <span className="text-xs font-mono tracking-[0.35em] uppercase text-white/40 block">
+              <span className="text-[11px] lg:text-xs font-mono tracking-[0.3em] uppercase text-white/40 block">
                 01 &middot; ARQUITETURA QUÍMICA
               </span>
 
-              <h3 className="font-editorial text-4xl lg:text-5xl font-light text-white leading-tight">
+              <h3 className="font-editorial text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-light text-white leading-tight">
                 Grupos Funcionais
               </h3>
 
               {/* Functional Group Badges */}
-              <div className="flex flex-wrap gap-2.5 py-1">
+              <div className="flex flex-wrap gap-2 py-0.5 sm:py-1">
                 {vitamin.functionalGroups.map((group, i) => (
                   <span key={i} className="pill-badge">
                     {group}
@@ -237,14 +242,14 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
               </div>
 
               {/* MODELO 2D: Integrado junto dos grupos funcionais */}
-              <div className="py-2">
+              <div className="py-1.5 sm:py-2">
                 <div className="w-full max-w-sm text-white/90">
                   <span className="text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-1">
                     Fórmula Estrutural Plana (2D)
                   </span>
                   <ChemicalSkeletalSvg
                     type={vitamin.chemicalSvgType}
-                    className="w-full h-auto max-h-[20vh]"
+                    className="w-full h-auto max-h-[18vh] lg:max-h-[20vh]"
                   />
                 </div>
               </div>
@@ -256,7 +261,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
               )}
 
               {vitamin.derivationOrSynthesis && (
-                <div className="text-xs font-mono text-white/60 tracking-wider">
+                <div className="text-[11px] lg:text-xs font-mono text-white/60 tracking-wider">
                   <span style={{ color: accentColor }}>✦ Origem: </span>
                   {vitamin.derivationOrSynthesis}
                 </div>
@@ -266,24 +271,24 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             {/* BEAT 2: FUNÇÃO BIOLÓGICA */}
             <div
               ref={beatFunctionRef}
-              className="w-full absolute inset-0 flex flex-col justify-center space-y-5 opacity-0 pointer-events-none"
+              className="w-full absolute inset-0 flex flex-col justify-center space-y-3.5 lg:space-y-5 opacity-0 pointer-events-none"
             >
               <span
-                className="text-xs font-mono tracking-[0.35em] uppercase block"
+                className="text-[11px] lg:text-xs font-mono tracking-[0.3em] uppercase block"
                 style={{ color: accentColor }}
               >
                 02 &middot; AÇÃO NO ORGANISMO
               </span>
 
-              <h3 className="font-editorial text-4xl lg:text-6xl font-light text-white uppercase tracking-tight leading-none">
+              <h3 className="font-editorial text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-light text-white uppercase tracking-tight leading-none">
                 Função Biológica
               </h3>
 
-              <div className="space-y-4 pt-2">
+              <div className="space-y-3 lg:space-y-4 pt-1.5 sm:pt-2">
                 {vitamin.functions.map((fn, idx) => (
                   <p
                     key={idx}
-                    className="text-base lg:text-lg text-white/80 font-sans font-light leading-relaxed border-l-2 pl-4"
+                    className="text-sm sm:text-base lg:text-base xl:text-lg text-white/80 font-sans font-light leading-relaxed border-l-2 pl-3 sm:pl-4"
                     style={{ borderLeftColor: accentColor }}
                   >
                     {fn}
@@ -295,27 +300,27 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             {/* BEAT 3: DEFICIÊNCIA (AVITAMINOSE) */}
             <div
               ref={beatDeficiencyRef}
-              className="w-full absolute inset-0 flex flex-col justify-center space-y-4 opacity-0 pointer-events-none"
+              className="w-full absolute inset-0 flex flex-col justify-center space-y-3 lg:space-y-4 opacity-0 pointer-events-none"
             >
-              <span className="text-xs font-mono tracking-[0.35em] uppercase text-red-400/90 block">
+              <span className="text-[11px] lg:text-xs font-mono tracking-[0.3em] uppercase text-red-400/90 block">
                 03 &middot; AVITAMINOSE & DEFICIÊNCIA
               </span>
 
-              <h3 className="font-editorial text-4xl lg:text-6xl font-light text-white uppercase tracking-tight leading-none">
+              <h3 className="font-editorial text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-light text-white uppercase tracking-tight leading-none">
                 Manifestações Clínicas
               </h3>
 
               {vitamin.avitaminosis.description && (
-                <p className="text-xs font-mono text-white/50 leading-relaxed uppercase tracking-wider">
+                <p className="text-[11px] lg:text-xs font-mono text-white/50 leading-relaxed uppercase tracking-wider">
                   {vitamin.avitaminosis.description}
                 </p>
               )}
 
-              <div className="space-y-2.5 pt-2">
+              <div className="space-y-2 lg:space-y-2.5 pt-1.5 sm:pt-2">
                 {vitamin.avitaminosis.symptoms.map((symptom, idx) => (
-                  <div key={idx} className="flex items-baseline space-x-3">
+                  <div key={idx} className="flex items-baseline space-x-2.5 sm:space-x-3">
                     <span className="text-red-400 font-mono text-xs">✕</span>
-                    <p className="text-base text-white/85 font-sans font-light leading-relaxed">
+                    <p className="text-sm sm:text-base text-white/85 font-sans font-light leading-relaxed">
                       {symptom}
                     </p>
                   </div>
@@ -326,31 +331,31 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
             {/* BEAT 4: FONTES BIOLÓGICAS (Alinhado à lateral) */}
             <div
               ref={beatSourcesRef}
-              className="w-full absolute inset-0 flex flex-col justify-center space-y-4 opacity-0 pointer-events-none"
+              className="w-full absolute inset-0 flex flex-col justify-center space-y-3.5 lg:space-y-4 opacity-0 pointer-events-none"
             >
               <span
-                className="text-xs font-mono tracking-[0.35em] uppercase block"
+                className="text-[11px] lg:text-xs font-mono tracking-[0.3em] uppercase block"
                 style={{ color: accentColor }}
               >
                 04 &middot; ONDE ENCONTRAR
               </span>
 
-              <h3 className="font-editorial text-4xl lg:text-6xl font-light text-white uppercase tracking-tight leading-none">
+              <h3 className="font-editorial text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-light text-white uppercase tracking-tight leading-none">
                 Fontes Naturais
               </h3>
 
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-wrap gap-2.5 sm:gap-4 pt-1.5 sm:pt-2">
                 {vitamin.sources.map((source, i) => (
                   <span
                     key={i}
-                    className="font-editorial text-2xl lg:text-3xl font-light text-white/90 border-b border-white/15 pb-1 px-1.5"
+                    className="font-editorial text-lg sm:text-xl lg:text-2xl xl:text-3xl font-light text-white/90 border-b border-white/15 pb-1 px-1 sm:px-1.5"
                   >
                     {source}
                   </span>
                 ))}
               </div>
 
-              <p className="pt-3 text-xs font-mono text-white/40 uppercase tracking-widest">
+              <p className="pt-2 sm:pt-3 text-[11px] sm:text-xs font-mono text-white/40 uppercase tracking-widest">
                 A ingestão balanceada previne distúrbios metabólicos
               </p>
             </div>
@@ -360,10 +365,10 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
         {/* BEAT 0: NOME & IDENTIDADE QUÍMICA (Overlay inicial abrangente) */}
         <div
           ref={beatNameRef}
-          className="absolute inset-0 z-30 pointer-events-none flex flex-col justify-between p-12 lg:p-20 text-center"
+          className="absolute inset-0 z-30 pointer-events-none flex flex-col justify-between p-6 sm:p-10 lg:p-16 text-center"
         >
           {/* Top metadata tag */}
-          <div className="w-full flex items-center justify-between text-xs font-mono tracking-[0.3em] uppercase text-white/40">
+          <div className="w-full flex items-center justify-between text-[11px] lg:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/40">
             <span>CAPÍTULO {vitamin.number}</span>
             <span style={{ color: accentColor }}>{vitamin.classification.toUpperCase()}</span>
             <span>CID {vitamin.pubchemCid}</span>
@@ -372,18 +377,18 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
           {/* Monumental Title */}
           <div className="my-auto flex flex-col items-center">
             <span
-              className="text-sm font-mono tracking-[0.4em] uppercase mb-4"
+              className="text-xs sm:text-sm font-mono tracking-[0.35em] uppercase mb-2 sm:mb-4"
               style={{ color: accentColor }}
             >
               VITAMINA {vitamin.letter}
             </span>
-            <h2 className="font-editorial text-7xl lg:text-9xl font-light text-white uppercase tracking-tight leading-none">
+            <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-light text-white uppercase tracking-tight leading-none break-words">
               {vitamin.name}
             </h2>
-            <p className="font-serif italic text-3xl lg:text-4xl text-white/70 font-light mt-4">
+            <p className="font-serif italic text-lg sm:text-xl lg:text-2xl xl:text-3xl text-white/70 font-light mt-2 sm:mt-4">
               {vitamin.chemicalName}
             </p>
-            <div className="mt-5 flex items-center space-x-4 font-mono text-sm text-white/40 tracking-wider">
+            <div className="mt-3 sm:mt-5 flex items-center space-x-3 sm:space-x-4 font-mono text-xs sm:text-sm text-white/40 tracking-wider">
               <span>{vitamin.formula}</span>
               <span>&middot;</span>
               <span>{vitamin.molecularWeight}</span>
@@ -391,7 +396,7 @@ export const ScrollyVitaminStoryDesktop: React.FC<ScrollyVitaminStoryDesktopProp
           </div>
 
           {/* Bottom hint */}
-          <div className="w-full text-center text-xs font-mono tracking-[0.3em] uppercase text-white/30">
+          <div className="w-full text-center text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/30">
             ROLE PARA EXPLORAR A ESTRUTURA
           </div>
         </div>

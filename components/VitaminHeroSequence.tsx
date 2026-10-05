@@ -396,16 +396,16 @@ export const VitaminHeroSequence: React.FC = () => {
           <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#060504] via-transparent to-[#060504]/60" />
 
           {/* Editorial Typography Overlay Layer */}
-          <div className="absolute inset-0 z-20 pointer-events-none select-none flex flex-col justify-between p-6 sm:p-12 md:p-16 lg:p-20 text-[#f5efe6]">
+          <div className="absolute inset-0 z-20 pointer-events-none select-none flex flex-col justify-between p-4 sm:p-8 md:p-12 lg:p-16 text-[#f5efe6]">
             {/* Top Bar: Editorial Header */}
             <div ref={topBarRef} className="w-full flex items-center justify-between opacity-0">
-              <div className="flex items-center space-x-3 text-xs font-mono tracking-[0.3em] uppercase text-white/50">
+              <div className="flex items-center space-x-2 sm:space-x-3 text-[10px] sm:text-xs font-mono tracking-[0.25em] sm:tracking-[0.3em] uppercase text-white/50">
                 <span>BIOQUÍMICA MOLECULAR</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#e8a830]" />
                 <span className="text-white/30">2026</span>
               </div>
 
-              <div className="text-right text-xs font-mono tracking-[0.25em] text-white/40 uppercase">
+              <div className="text-right text-[10px] sm:text-xs font-mono tracking-[0.2em] sm:tracking-[0.25em] text-white/40 uppercase">
                 ESTUDO CIENTÍFICO
               </div>
             </div>
@@ -415,10 +415,10 @@ export const VitaminHeroSequence: React.FC = () => {
               ref={heroBeat1Ref}
               className="w-full my-auto flex flex-col items-center text-center px-4 opacity-0"
             >
-              <h1 className="font-editorial text-[18vw] sm:text-[15vw] lg:text-[13rem] leading-[0.85] tracking-[-0.03em] text-[#f5efe6] font-light">
+              <h1 className="font-editorial text-[15vw] sm:text-[13vw] md:text-[10vw] lg:text-[7.5rem] xl:text-[9.5rem] 2xl:text-[11.5rem] leading-[0.88] tracking-[-0.03em] text-[#f5efe6] font-light">
                 VITAMINAS
               </h1>
-              <p className="mt-3 sm:mt-5 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif text-[#e8a830] tracking-normal font-normal">
+              <p className="mt-2 sm:mt-4 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-serif text-[#e8a830] tracking-normal font-normal">
                 A Química da Vida
               </p>
             </div>
@@ -428,10 +428,10 @@ export const VitaminHeroSequence: React.FC = () => {
               ref={heroBeat2Ref}
               className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 sm:px-12 max-w-4xl mx-auto pointer-events-none opacity-0"
             >
-              <span className="text-xs font-mono tracking-[0.35em] uppercase text-[#e8a830] mb-6 block">
+              <span className="text-[11px] sm:text-xs font-mono tracking-[0.35em] uppercase text-[#e8a830] mb-4 sm:mb-6 block">
                 A ESSÊNCIA BIOLÓGICA
               </span>
-              <p className="font-editorial text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-light leading-[1.2] tracking-tight">
+              <p className="font-editorial text-xl sm:text-3xl md:text-4xl lg:text-5xl text-white font-light leading-[1.25] tracking-tight">
                 Compostos orgânicos invisíveis. <br />
                 <span className="italic font-serif text-[#e8a830]/90">
                   Essenciais em frações de miligramas.

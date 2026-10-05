@@ -157,82 +157,82 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
       className="relative w-full h-[300vh] bg-[#060504] text-[#f5efe6]"
       style={{ contentVisibility: "auto", containIntrinsicSize: "1000px" }}
     >
-      {/* Sticky Mobile Stage: Strict Vertical Split (Top 36vh Molecule / Bottom 58vh Text) */}
-      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between px-4 pt-22 pb-30 gap-5">
+      {/* Sticky Mobile/Tablet Stage: Responsive Vertical Split */}
+      <div className="sticky top-0 left-0 w-full h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-8 md:px-12 pt-16 sm:pt-20 pb-20 sm:pb-24 gap-3 sm:gap-6 max-w-3xl mx-auto">
         {/* Subtle Ambient Radial Glow */}
         <div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full pointer-events-none opacity-30"
+          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full pointer-events-none opacity-30"
           style={{
             background: `radial-gradient(circle, ${vitamin.accentColor}25 0%, transparent 70%)`,
           }}
         />
 
         {/* TOP BAR: Metadata */}
-        <div className="w-full flex items-center justify-between text-[10px] font-mono tracking-widest uppercase text-white/40 z-30 pt-1">
+        <div className="w-full flex items-center justify-between text-[10px] sm:text-xs font-mono tracking-widest uppercase text-white/40 z-30 pt-1">
           <span>CAPÍTULO {vitamin.number}</span>
           <span style={{ color: accentColor }}>{vitamin.classification.toUpperCase()}</span>
           <span>CID {vitamin.pubchemCid}</span>
         </div>
 
-        {/* SECTION 1: DEDICATED 3D MOLECULE STAGE (Strictly fixed in upper 36vh) */}
+        {/* SECTION 1: DEDICATED 3D MOLECULE STAGE */}
         <div
           ref={moleculeWrapperRef}
-          className="w-full h-[36vh] flex items-center justify-center relative z-10 pointer-events-auto"
+          className="w-full h-[32vh] sm:h-[36vh] flex items-center justify-center relative z-10 pointer-events-auto"
         >
           {isNearViewport ? (
             <MoleculeViewer
               vitamin={vitamin}
-              className="w-full h-full max-w-[340px]"
+              className="w-full h-full max-w-[280px] sm:max-w-[380px]"
             />
           ) : (
             <div className="w-full h-full" />
           )}
         </div>
 
-        {/* SECTION 2: DEDICATED NARRATIVE TEXT STAGE (Strictly positioned below 3D molecule in lower 56vh) */}
-        <div className="w-full h-[54vh] relative z-20 flex flex-col justify-center">
+        {/* SECTION 2: DEDICATED NARRATIVE TEXT STAGE */}
+        <div className="w-full h-[58vh] sm:h-[54vh] relative z-20 flex flex-col justify-center">
           {/* BEAT 0: NOME & IDENTIDADE QUÍMICA */}
           <div
             ref={beatNameRef}
             className="absolute inset-0 flex flex-col justify-center items-center text-center px-2 pointer-events-none"
           >
             <span
-              className="text-[11px] font-mono tracking-[0.35em] uppercase mb-1.5"
+              className="text-[10px] sm:text-xs font-mono tracking-[0.35em] uppercase mb-1 sm:mb-2"
               style={{ color: accentColor }}
             >
               VITAMINA {vitamin.letter}
             </span>
-            <h2 className="font-editorial text-4xl sm:text-5xl font-light text-white uppercase tracking-tight leading-none">
+            <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl font-light text-white uppercase tracking-tight leading-none break-words">
               {vitamin.name}
             </h2>
-            <p className="font-serif italic text-xl sm:text-2xl text-white/70 font-light mt-1.5">
+            <p className="font-serif italic text-lg sm:text-2xl text-white/70 font-light mt-1 sm:mt-2">
               {vitamin.chemicalName}
             </p>
-            <div className="mt-3 flex items-center space-x-3 font-mono text-xs text-white/40 tracking-wider">
+            <div className="mt-2.5 sm:mt-4 flex items-center space-x-3 font-mono text-[11px] sm:text-xs text-white/40 tracking-wider">
               <span>{vitamin.formula}</span>
               <span>&middot;</span>
               <span>{vitamin.molecularWeight}</span>
             </div>
-            <div className="mt-4 text-[9px] font-mono tracking-widest uppercase text-white/30">
+            <div className="mt-3 sm:mt-4 text-[9px] sm:text-[10px] font-mono tracking-widest uppercase text-white/30">
               ROLE PARA EXPLORAR
             </div>
           </div>
 
-          {/* BEAT 1: GRUPOS FUNCIONAIS + MODELO 2D (Juntos abaixo do 3D!) */}
+          {/* BEAT 1: GRUPOS FUNCIONAIS + MODELO 2D */}
           <div
             ref={beatGroupRef}
-            className="absolute inset-0 flex flex-col justify-center space-y-2 px-3 text-left opacity-0 pointer-events-none"
+            className="absolute inset-0 flex flex-col justify-center space-y-2 sm:space-y-3 px-2 sm:px-4 text-left opacity-0 pointer-events-none"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/40 block">
+            <span className="text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/40 block">
               01 &middot; ARQUITETURA QUÍMICA
             </span>
 
-            <h3 className="font-editorial text-2xl font-light text-white leading-tight">
+            <h3 className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-white leading-tight">
               Grupos Funcionais
             </h3>
 
             {/* Badges de Grupos Funcionais */}
-            <div className="flex flex-wrap gap-1.5 py-0.5">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 py-0.5">
               {vitamin.functionalGroups.map((group, i) => (
                 <span key={i} className="pill-badge-sm">
                   {group}
@@ -242,25 +242,25 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
 
             {/* MODELO 2D: Integrado junto dos grupos funcionais */}
             <div className="py-1">
-              <div className="w-full max-w-[220px] text-white/90">
-                <span className="text-[9px] font-mono uppercase tracking-widest text-white/40 block mb-0.5">
+              <div className="w-full max-w-[200px] sm:max-w-[280px] text-white/90">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-white/40 block mb-0.5">
                   Fórmula Estrutural Plana (2D)
                 </span>
                 <ChemicalSkeletalSvg
                   type={vitamin.chemicalSvgType}
-                  className="w-full h-auto max-h-[12vh]"
+                  className="w-full h-auto max-h-[11vh] sm:max-h-[14vh]"
                 />
               </div>
             </div>
 
             {vitamin.functionalGroupNote && (
-              <p className="text-[10px] text-white/50 font-sans leading-relaxed">
+              <p className="text-[10px] sm:text-xs text-white/50 font-sans leading-relaxed">
                 {vitamin.functionalGroupNote}
               </p>
             )}
 
             {vitamin.derivationOrSynthesis && (
-              <div className="text-[10px] font-mono text-white/60 tracking-wider">
+              <div className="text-[10px] sm:text-xs font-mono text-white/60 tracking-wider">
                 <span style={{ color: accentColor }}>✦ Origem: </span>
                 {vitamin.derivationOrSynthesis}
               </div>
@@ -270,24 +270,24 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
           {/* BEAT 2: FUNÇÃO BIOLÓGICA */}
           <div
             ref={beatFunctionRef}
-            className="absolute inset-0 flex flex-col justify-center space-y-2 px-3 text-left opacity-0 pointer-events-none"
+            className="absolute inset-0 flex flex-col justify-center space-y-2 sm:space-y-3 px-2 sm:px-4 text-left opacity-0 pointer-events-none"
           >
             <span
-              className="text-[10px] font-mono tracking-[0.3em] uppercase block"
+              className="text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase block"
               style={{ color: accentColor }}
             >
               02 &middot; AÇÃO NO ORGANISMO
             </span>
 
-            <h3 className="font-editorial text-2xl font-light text-white uppercase tracking-tight leading-none">
+            <h3 className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-white uppercase tracking-tight leading-none">
               Função Biológica
             </h3>
 
-            <div className="space-y-1.5 pt-1">
+            <div className="space-y-1.5 sm:space-y-2 pt-1">
               {vitamin.functions.map((fn, idx) => (
                 <p
                   key={idx}
-                  className="text-xs text-white/80 font-sans font-light leading-relaxed border-l-2 pl-2.5"
+                  className="text-xs sm:text-sm md:text-base text-white/80 font-sans font-light leading-relaxed border-l-2 pl-2.5 sm:pl-3"
                   style={{ borderLeftColor: accentColor }}
                 >
                   {fn}
@@ -299,27 +299,27 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
           {/* BEAT 3: DEFICIÊNCIA (AVITAMINOSE) */}
           <div
             ref={beatDeficiencyRef}
-            className="absolute inset-0 flex flex-col justify-center space-y-2 px-3 text-left opacity-0 pointer-events-none"
+            className="absolute inset-0 flex flex-col justify-center space-y-2 sm:space-y-3 px-2 sm:px-4 text-left opacity-0 pointer-events-none"
           >
-            <span className="text-[10px] font-mono tracking-[0.3em] uppercase text-red-400/90 block">
+            <span className="text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase text-red-400/90 block">
               03 &middot; AVITAMINOSE & DEFICIÊNCIA
             </span>
 
-            <h3 className="font-editorial text-2xl font-light text-white uppercase tracking-tight leading-none">
+            <h3 className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-white uppercase tracking-tight leading-none">
               Manifestações Clínicas
             </h3>
 
             {vitamin.avitaminosis.description && (
-              <p className="text-[10px] font-mono text-white/50 leading-relaxed uppercase tracking-wider">
+              <p className="text-[10px] sm:text-xs font-mono text-white/50 leading-relaxed uppercase tracking-wider">
                 {vitamin.avitaminosis.description}
               </p>
             )}
 
-            <div className="space-y-1.5 pt-1">
+            <div className="space-y-1.5 sm:space-y-2 pt-1">
               {vitamin.avitaminosis.symptoms.map((symptom, idx) => (
                 <div key={idx} className="flex items-baseline space-x-2">
-                  <span className="text-red-400 font-mono text-[10px]">✕</span>
-                  <p className="text-xs text-white/85 font-sans font-light leading-relaxed">
+                  <span className="text-red-400 font-mono text-[10px] sm:text-xs">✕</span>
+                  <p className="text-xs sm:text-sm text-white/85 font-sans font-light leading-relaxed">
                     {symptom}
                   </p>
                 </div>
@@ -330,31 +330,31 @@ export const ScrollyVitaminStoryMobile: React.FC<ScrollyVitaminStoryMobileProps>
           {/* BEAT 4: FONTES BIOLÓGICAS */}
           <div
             ref={beatSourcesRef}
-            className="absolute inset-0 flex flex-col justify-center space-y-2 px-3 text-left opacity-0 pointer-events-none"
+            className="absolute inset-0 flex flex-col justify-center space-y-2 sm:space-y-3 px-2 sm:px-4 text-left opacity-0 pointer-events-none"
           >
             <span
-              className="text-[10px] font-mono tracking-[0.3em] uppercase block"
+              className="text-[10px] sm:text-xs font-mono tracking-[0.3em] uppercase block"
               style={{ color: accentColor }}
             >
               04 &middot; ONDE ENCONTRAR
             </span>
 
-            <h3 className="font-editorial text-2xl font-light text-white uppercase tracking-tight leading-none">
+            <h3 className="font-editorial text-xl sm:text-2xl md:text-3xl font-light text-white uppercase tracking-tight leading-none">
               Fontes Naturais
             </h3>
 
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
               {vitamin.sources.map((source, i) => (
                 <span
                   key={i}
-                  className="font-editorial text-lg font-light text-white/90 border-b border-white/15 pb-0.5 px-1"
+                  className="font-editorial text-base sm:text-xl font-light text-white/90 border-b border-white/15 pb-0.5 px-1"
                 >
                   {source}
                 </span>
               ))}
             </div>
 
-            <p className="pt-2 text-[10px] font-mono text-white/40 uppercase tracking-widest">
+            <p className="pt-2 text-[10px] sm:text-xs font-mono text-white/40 uppercase tracking-widest">
               A ingestão balanceada previne distúrbios metabólicos
             </p>
           </div>

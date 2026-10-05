@@ -109,24 +109,37 @@ body {
 
 @media (min-width: 640px) {
   .section-editorial {
-    padding-left: 3rem;
-    padding-right: 3rem;
-    padding-top: 8rem;
-    padding-bottom: 8rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 }
 
 @media (min-width: 768px) {
   .section-editorial {
-    padding-left: 5rem;
-    padding-right: 5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
   }
 }
 
 @media (min-width: 1024px) {
   .section-editorial {
-    padding-left: 8rem;
-    padding-right: 8rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 6.5rem;
+    padding-bottom: 6.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-editorial {
+    padding-left: 6rem;
+    padding-right: 6rem;
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
   }
 }
 

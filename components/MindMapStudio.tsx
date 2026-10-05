@@ -538,10 +538,56 @@ export function MindMapStudio() {
     setSelectedNodeId(null);
   }, [setNodes, setEdges]);
 
-  // Ensure client-side mounting for React Flow dimensions
-  const [isMounted, setIsMounted] = useState(false);
+  // Check that container has non-zero dimensions before mounting React Flow (prevents React Flow Error #004)
+  const [isReady, setIsReady] = useState(false);
+
   useEffect(() => {
-    setIsMounted(true);
+    const el = containerRef.current;
+    if (!el) return;
+
+    const check = () => {
+      if (el.clientWidth > 0 && el.clientHeight > 0) {
+        setIsReady(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (check()) return;
+
+    let rafId: number;
+    let observer: ResizeObserver | null = null;
+
+    if (typeof ResizeObserver !== "undefined") {
+      observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.contentRect.width > 0 && entry.contentRect.height > 0) {
+            setIsReady(true);
+            observer?.disconnect();
+            break;
+          }
+        }
+      });
+      observer.observe(el);
+    }
+
+    const poll = () => {
+      if (!check()) {
+        rafId = requestAnimationFrame(poll);
+      }
+    };
+    rafId = requestAnimationFrame(poll);
+
+    return () => {
+      observer?.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  // Suppress transient 004 error if viewport/container is measured during layout calculation
+  const handleFlowError = useCallback((id: string, message: string) => {
+    if (id === "004") return;
+    console.warn(`[React Flow]: (${id}) ${message}`);
   }, []);
 
   return (
@@ -550,22 +596,22 @@ export function MindMapStudio() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-gradient-to-r from-[#e8a830]/5 via-transparent to-[#38bdf8]/5 blur-3xl pointer-events-none rounded-full" />
 
       {/* Header Section */}
-      <div className="max-w-6xl mx-auto text-center mb-10 relative z-10">
-        <span className="eyebrow-scientific text-[#e8a830] mb-3 inline-block">
+      <div className="max-w-6xl mx-auto text-center mb-8 sm:mb-10 relative z-10">
+        <span className="eyebrow-scientific text-[#e8a830] mb-2 sm:mb-3 inline-block">
           06. NAVEGAÇÃO CONCEITUAL & MAPA INTERATIVO
         </span>
-        <h2 className="font-editorial text-4xl sm:text-5xl md:text-6xl font-light text-white tracking-tight">
+        <h2 className="font-editorial text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white tracking-tight">
           Mapa Mental de Vitaminas
         </h2>
-        <p className="mt-4 text-sm sm:text-base text-white/60 font-sans max-w-2xl mx-auto font-light leading-relaxed">
+        <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-base text-white/60 font-sans max-w-2xl mx-auto font-light leading-relaxed">
           Explore as ramificações metabólicas, reconecte moléculas, altere títulos/descrições ou adicione novas anotações diretamente no mapa mental interativo abaixo.
         </p>
 
         {/* Quick Toolbar */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mt-6 text-xs font-mono">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-5 sm:mt-6 text-[11px] sm:text-xs font-mono">
           <button
             onClick={toggleFullscreen}
-            className="px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-[#e8a830]/20 hover:border-[#e8a830]/50 text-white transition-all flex items-center gap-1.5"
+            className="px-3 sm:px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-[#e8a830]/20 hover:border-[#e8a830]/50 text-white transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <svg className="w-3.5 h-3.5 text-[#e8a830]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {isFullscreen ? (
@@ -579,7 +625,7 @@ export function MindMapStudio() {
 
           <button
             onClick={handleResetMap}
-            className="px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 text-white transition-all flex items-center gap-1.5"
+            className="px-3 sm:px-3.5 py-1.5 rounded-full border border-white/15 bg-white/5 hover:bg-white/15 text-white transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <svg className="w-3.5 h-3.5 text-[#e8a830]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -587,7 +633,7 @@ export function MindMapStudio() {
             Restaurar Estrutura Original
           </button>
 
-          <div className="px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50">
+          <div className="px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/10 text-white/50 text-[10px] sm:text-xs">
             💡 Dica: Selecione qualquer nó para alterar o título e a descrição
           </div>
         </div>
@@ -598,16 +644,23 @@ export function MindMapStudio() {
         ref={containerRef}
         style={{
           width: "100%",
-          height: isFullscreen ? "100vh" : "680px",
-          minHeight: "500px",
+          height: isFullscreen ? "100vh" : undefined,
+          minHeight: "460px",
         }}
-        className={`transition-all duration-300 relative overflow-hidden bg-[#070605] ${
+        className={`w-full relative overflow-hidden bg-[#070605] ${
           isFullscreen
-            ? "fixed inset-0 z-50 rounded-none border-none"
-            : "max-w-7xl mx-auto rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl"
+            ? "fixed inset-0 z-50 rounded-none border-none h-screen"
+            : "max-w-7xl mx-auto rounded-xl sm:rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl h-[520px] sm:h-[600px] lg:h-[680px]"
         }`}
       >
-        {isMounted && (
+        {!isReady && (
+          <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-white/40">
+            <div className="w-7 h-7 rounded-full border-2 border-[#e8a830]/30 border-t-[#e8a830] animate-spin" />
+            <span className="font-mono text-xs tracking-wider uppercase">Carregando Mapa Conceitual...</span>
+          </div>
+        )}
+
+        {isReady && (
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -616,6 +669,7 @@ export function MindMapStudio() {
             onConnect={onConnect}
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
+            onError={handleFlowError}
             fitView
             fitViewOptions={{ padding: 0.2 }}
             minZoom={0.3}
@@ -661,8 +715,8 @@ export function MindMapStudio() {
 
           {/* Floating Edit & Inspector Panel */}
           {selectedNode && (
-            <Panel position="top-right" className="m-4">
-              <div className="w-80 bg-[#0e0c0a]/95 border border-[#e8a830]/40 rounded-xl p-4 shadow-2xl backdrop-blur-xl font-sans text-white text-xs space-y-3.5 animate-in fade-in slide-in-from-right-4 duration-200">
+            <Panel position="top-right" className="m-2 sm:m-4 max-w-[calc(100vw-2rem)]">
+              <div className="w-72 sm:w-80 bg-[#0e0c0a]/95 border border-[#e8a830]/40 rounded-xl p-3 sm:p-4 shadow-2xl backdrop-blur-xl font-sans text-white text-xs space-y-3 animate-in fade-in slide-in-from-right-4 duration-200">
                 <div className="flex items-center justify-between border-b border-white/10 pb-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#e8a830] animate-pulse" />

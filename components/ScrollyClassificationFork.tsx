@@ -83,61 +83,61 @@ export const ScrollyClassificationFork: React.FC = () => {
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Section Header */}
-        <div ref={headerRef} className="mb-20 sm:mb-28 text-center max-w-4xl mx-auto">
-          <span className="eyebrow-scientific text-white/40 mb-6">
+        <div ref={headerRef} className="mb-14 sm:mb-20 lg:mb-24 text-center max-w-4xl mx-auto">
+          <span className="eyebrow-scientific text-white/40 mb-4 sm:mb-6">
             02 &middot; A CLASSIFICAÇÃO QUÍMICA
           </span>
-          <h2 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-tight">
+          <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white leading-tight">
             Como as vitaminas <br />
             <span className="italic font-serif text-[#e8a830]/90">
               se dissolvem no corpo?
             </span>
           </h2>
-          <p className="mt-6 text-base sm:text-xl text-white/60 font-sans font-light max-w-2xl mx-auto">
+          <p className="mt-4 sm:mt-6 text-sm sm:text-lg md:text-xl text-white/60 font-sans font-light max-w-2xl mx-auto">
             A solubilidade química dita como cada vitamina é digerida, transportada no sangue, armazenada ou eliminada pelo organismo.
           </p>
         </div>
 
         {/* The Visual Fork: Pure Typographic Duality */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 pt-4 border-t border-white/[0.06]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 xl:gap-24 pt-4 border-t border-white/[0.06]">
           {/* Group 1: Lipossolúveis */}
-          <div ref={lipoColRef} className="flex flex-col space-y-6">
-            <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-[0.3em] text-[#e8a830]">
+          <div ref={lipoColRef} className="flex flex-col space-y-4 sm:space-y-6">
+            <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-[0.25em] sm:tracking-[0.3em] text-[#e8a830]">
               <span>GRUPO I &middot; 4 COMPOSTOS</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#e8a830]" />
             </div>
 
-            <h3 className="font-editorial text-5xl sm:text-7xl lg:text-8xl font-light text-white uppercase tracking-tight">
+            <h3 className="font-editorial text-3xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-light text-white uppercase tracking-tight break-words">
               Lipossolúveis
             </h3>
 
             {/* Letter Designation Sequence */}
-            <div className="font-editorial text-3xl sm:text-5xl font-light text-[#e8a830]/90 tracking-widest py-2">
+            <div className="font-editorial text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-light text-[#e8a830]/90 tracking-widest py-1.5 sm:py-2">
               A &middot; D &middot; E &middot; K
             </div>
 
-            <p className="text-base sm:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
+            <p className="text-sm sm:text-base lg:text-base xl:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
               Solúveis em lipídios e gorduras corporais. Requerem ácidos biliares para digestão e são estocadas por longos períodos no <span className="text-white font-normal">tecido adiposo e no fígado</span>, evitando deficiências imediatas mas exigindo cautela contra hipervitaminoses.
             </p>
           </div>
 
           {/* Group 2: Hidrossolúveis */}
-          <div ref={hidroColRef} className="flex flex-col space-y-6">
-            <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-[0.3em] text-[#52a5ff]">
+          <div ref={hidroColRef} className="flex flex-col space-y-4 sm:space-y-6">
+            <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-[0.25em] sm:tracking-[0.3em] text-[#52a5ff]">
               <span>GRUPO II &middot; 5 COMPOSTOS</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#52a5ff]" />
             </div>
 
-            <h3 className="font-editorial text-5xl sm:text-7xl lg:text-8xl font-light text-white uppercase tracking-tight">
+            <h3 className="font-editorial text-3xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-light text-white uppercase tracking-tight break-words">
               Hidrossolúveis
             </h3>
 
             {/* Letter Designation Sequence */}
-            <div className="font-editorial text-3xl sm:text-5xl font-light text-[#52a5ff]/90 tracking-widest py-2">
+            <div className="font-editorial text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-light text-[#52a5ff]/90 tracking-widest py-1.5 sm:py-2">
               Complexo B &middot; Vitamina C
             </div>
 
-            <p className="text-base sm:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
+            <p className="text-sm sm:text-base lg:text-base xl:text-lg text-white/70 font-sans font-light leading-relaxed max-w-lg">
               Solúveis em água celular e fluidos circulatórios. Não criam reservatórios duradouros e o excesso é <span className="text-white font-normal">continuamente eliminado através da urina</span>, exigindo ingestão constante e renovação diária na dieta.
             </p>
           </div>

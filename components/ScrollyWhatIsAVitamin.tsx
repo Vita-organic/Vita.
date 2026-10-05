@@ -54,22 +54,22 @@ export const ScrollyWhatIsAVitamin: React.FC = () => {
           ==================================================================== */}
       <div
         ref={(el) => { beatsRef.current[0] = el; }}
-        className="min-h-screen flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-32 max-w-7xl mx-auto py-24 sm:py-32"
+        className="min-h-screen flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24 max-w-7xl mx-auto py-20 sm:py-28 lg:py-32"
       >
-        <span className="eyebrow-scientific text-[#e8a830] mb-8">
+        <span className="eyebrow-scientific text-[#e8a830] mb-6 sm:mb-8">
           01 &middot; O CONCEITO FUNDAMENTAL
         </span>
 
-        <h2 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-[1.05] tracking-tight max-w-5xl mb-10">
+        <h2 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-light text-white leading-[1.08] tracking-tight max-w-5xl mb-6 sm:mb-10">
           Vitaminas são compostos orgânicos indispensáveis ao funcionamento do corpo.
         </h2>
 
-        <p className="text-lg sm:text-2xl text-white/60 font-sans font-light leading-relaxed max-w-3xl">
+        <p className="text-base sm:text-xl md:text-2xl text-white/60 font-sans font-light leading-relaxed max-w-3xl">
           Atuam na manutenção celular e na regulação metabólica. Não servem como fonte de calorias ou tecido estrutural — são ativadores químicos cuja ausência paralisa a fisiologia humana.
         </p>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24">
         <div className="w-full h-[1px] bg-white/[0.06]" />
       </div>
 
@@ -78,13 +78,13 @@ export const ScrollyWhatIsAVitamin: React.FC = () => {
           ==================================================================== */}
       <div
         ref={(el) => { beatsRef.current[1] = el; }}
-        className="min-h-screen flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-32 max-w-7xl mx-auto py-24 sm:py-32"
+        className="min-h-screen flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24 max-w-7xl mx-auto py-20 sm:py-28 lg:py-32"
       >
-        <span className="eyebrow-scientific text-white/40 mb-8">
+        <span className="eyebrow-scientific text-white/40 mb-6 sm:mb-8">
           02 &middot; A DEPENDÊNCIA EXTERNA
         </span>
 
-        <h3 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-[1.05] tracking-tight max-w-5xl mb-8">
+        <h3 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-light text-white leading-[1.08] tracking-tight max-w-5xl mb-6 sm:mb-8">
           O organismo humano <br />
           <span className="italic font-serif text-[#e8a830]/90">
             não é capaz de sintetizá-las
@@ -92,17 +92,17 @@ export const ScrollyWhatIsAVitamin: React.FC = () => {
           .
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 max-w-5xl mt-4">
-          <p className="text-base sm:text-xl text-white/70 font-sans font-light leading-relaxed">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-12 max-w-5xl mt-4">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 font-sans font-light leading-relaxed">
             Ao longo de milhões de anos de evolução, nossas células perderam as vias biossintéticas complexas necessárias para montar essas moléculas, passando a depender da absorção de plantas, animais e microrganismos.
           </p>
-          <p className="text-base sm:text-xl text-white/70 font-sans font-light leading-relaxed">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 font-sans font-light leading-relaxed">
             Por isso, precisam ser ingeridas com regularidade estrita. Sua escassez prolongada na alimentação deflagra doenças debilitantes conhecidas na medicina como <span className="text-white font-normal">avitaminoses</span>.
           </p>
         </div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 md:px-20 lg:px-32">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24">
         <div className="w-full h-[1px] bg-white/[0.06]" />
       </div>
 
@@ -111,48 +111,48 @@ export const ScrollyWhatIsAVitamin: React.FC = () => {
           ==================================================================== */}
       <div
         ref={(el) => { beatsRef.current[2] = el; }}
-        className="min-h-screen flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-32 max-w-7xl mx-auto py-24 sm:py-32"
+        className="min-h-screen flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 xl:px-24 max-w-7xl mx-auto py-20 sm:py-28 lg:py-32"
       >
-        <span className="eyebrow-scientific text-white/40 mb-8">
+        <span className="eyebrow-scientific text-white/40 mb-6 sm:mb-8">
           03 &middot; MECANISMO DE AÇÃO BIOQUÍMICA
         </span>
 
-        <h3 className="font-editorial text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light text-white leading-[0.98] tracking-tight uppercase mb-8">
+        <h3 className="font-editorial text-3xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-light text-white leading-[1.05] tracking-tight uppercase mb-6 sm:mb-8">
           Cofatores <br />
           <span className="italic font-serif text-[#e8a830]/90 normal-case">
             Enzimáticos
           </span>
         </h3>
 
-        <p className="text-lg sm:text-2xl text-white/75 font-sans font-light leading-relaxed max-w-4xl mb-12">
+        <p className="text-base sm:text-xl md:text-2xl text-white/75 font-sans font-light leading-relaxed max-w-4xl mb-8 sm:mb-12">
           Funcionam como parceiras moleculares indispensáveis que se encaixam no sítio ativo das enzimas, permitindo que elas acelerem e realizem milhares de reações químicas por segundo no interior das células.
         </p>
 
         {/* Minimalist Typographic Scale Indicator */}
-        <div className="flex flex-wrap items-baseline gap-12 sm:gap-20 pt-6 border-t border-white/[0.06]">
+        <div className="flex flex-wrap items-baseline gap-8 sm:gap-16 pt-6 border-t border-white/[0.06]">
           <div>
-            <span className="font-editorial text-5xl sm:text-7xl font-light text-white block">
+            <span className="font-editorial text-4xl sm:text-5xl md:text-6xl font-light text-white block">
               13
             </span>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/40">
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/40">
               Vitaminas Essenciais
             </span>
           </div>
 
           <div>
-            <span className="font-editorial text-5xl sm:text-7xl font-light text-[#e8a830] block">
+            <span className="font-editorial text-4xl sm:text-5xl md:text-6xl font-light text-[#e8a830] block">
               mg &middot; &mu;g
             </span>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/40">
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/40">
               Escala de Ação Celular
             </span>
           </div>
 
           <div>
-            <span className="font-editorial text-5xl sm:text-7xl font-light text-white block">
+            <span className="font-editorial text-4xl sm:text-5xl md:text-6xl font-light text-white block">
               0 kcal
             </span>
-            <span className="text-xs font-mono uppercase tracking-[0.2em] text-white/40">
+            <span className="text-[11px] sm:text-xs font-mono uppercase tracking-[0.2em] text-white/40">
               Sem Calorias Diretas
             </span>
           </div>

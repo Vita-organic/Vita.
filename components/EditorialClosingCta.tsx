@@ -84,25 +84,25 @@ export const EditorialClosingCta: React.FC = () => {
           ==================================================================== */}
       <section
         id="cronologia"
-        className="relative w-full py-24 sm:py-32 px-6 sm:px-12 md:px-20 lg:px-32 border-t border-white/[0.06]"
+        className="relative w-full py-16 sm:py-24 lg:py-32 px-6 sm:px-10 md:px-14 lg:px-20 xl:px-28 border-t border-white/[0.06]"
       >
         <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <span className="text-xs font-mono tracking-[0.35em] uppercase text-white/40 mb-3 block">
+          <div className="mb-10 sm:mb-14">
+            <span className="text-[11px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-2 sm:mb-3 block">
               MARCOS HISTÓRICOS
             </span>
-            <h3 className="font-editorial text-4xl sm:text-5xl font-light text-white">
+            <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
               Evolução da Ciência das Vitaminas
             </h3>
           </div>
 
-          <div ref={timelineRef} className="grid grid-cols-1 md:grid-cols-5 gap-10 md:gap-8 pt-8 border-t border-white/[0.06]">
+          <div ref={timelineRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 sm:gap-8 pt-6 sm:pt-8 border-t border-white/[0.06]">
             {TIMELINE_EVENTS.map((event, i) => (
-              <div key={i} className="flex flex-col space-y-3">
-                <span className="font-editorial text-3xl sm:text-4xl font-light text-[#e8a830]">
+              <div key={i} className="flex flex-col space-y-2 sm:space-y-3">
+                <span className="font-editorial text-2xl sm:text-3xl lg:text-4xl font-light text-[#e8a830]">
                   {event.year}
                 </span>
-                <span className="text-xs font-mono uppercase tracking-widest text-white/70">
+                <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-white/70">
                   {event.label}
                 </span>
                 <p className="text-xs sm:text-sm text-white/50 font-sans font-light leading-relaxed">
@@ -119,35 +119,35 @@ export const EditorialClosingCta: React.FC = () => {
           ==================================================================== */}
       <section
         id="autores"
-        className="relative w-full py-24 sm:py-32 px-6 sm:px-12 md:px-20 lg:px-32 border-t border-white/[0.06]"
+        className="relative w-full py-16 sm:py-24 lg:py-32 px-6 sm:px-10 md:px-14 lg:px-20 xl:px-28 border-t border-white/[0.06]"
       >
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 pb-6 border-b border-white/[0.06]">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-10 sm:mb-14 pb-5 sm:pb-6 border-b border-white/[0.06]">
             <div>
-              <span className="text-xs font-mono tracking-[0.35em] uppercase text-white/40 mb-3 block">
+              <span className="text-[11px] sm:text-xs font-mono tracking-[0.3em] uppercase text-white/40 mb-2 sm:mb-3 block">
                 CRÉDITOS ACADÊMICOS
               </span>
-              <h3 className="font-editorial text-4xl sm:text-5xl font-light text-white">
+              <h3 className="font-editorial text-3xl sm:text-4xl md:text-5xl font-light text-white">
                 Autores da Pesquisa
               </h3>
             </div>
 
-            <p className="text-xs font-mono text-white/40 uppercase tracking-widest">
+            <p className="text-[11px] sm:text-xs font-mono text-white/40 uppercase tracking-widest">
               TRABALHO DE QUÍMICA ORGÂNICA &middot; 2026
             </p>
           </div>
 
           <div
             ref={authorsRef}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
           >
             {AUTHORS.map((author, idx) => (
-              <div key={idx} className="flex items-baseline space-x-4 pb-4 border-b border-white/[0.04]">
+              <div key={idx} className="flex items-baseline space-x-3 sm:space-x-4 pb-3 sm:pb-4 border-b border-white/[0.04]">
                 <span className="font-mono text-xs text-[#e8a830]/80">
                   0{idx + 1}
                 </span>
                 <div>
-                  <h4 className="font-sans text-base sm:text-lg text-white font-normal leading-snug">
+                  <h4 className="font-sans text-sm sm:text-base lg:text-lg text-white font-normal leading-snug">
                     {author}
                   </h4>
                 </div>
